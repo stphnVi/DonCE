@@ -1,0 +1,2 @@
+https://www.youtube.com/watch?v=jUZZC9UXyFs install/setup SDL2
+https://www.youtube.com/watch?v=taCJhnBXG_w install/setup make
