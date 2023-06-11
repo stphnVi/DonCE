@@ -1,0 +1,10 @@
+{
+    "java.project.sourcePaths": [
+        "Logic/src",
+        "Logic/lib"
+    ],
+    "java.project.referencedLibraries": [
+        "C:\\Users\\valem\\Downloads\\commons-math3-3.6.1-bin.zip",
+        "Logic/lib/json-simple-1.1.1.jar"
+    ]
+}
