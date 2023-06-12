@@ -1,7 +1,7 @@
 CC = gcc
 CFLAGS = -Isrc/include
 LDFLAGS = -Lsrc/lib
-LDLIBS = -lmingw32 -lSDL2main -lSDL2
+LDLIBS = -lmingw32 -lSDL2main -lSDL2 -lSDL2_image
 
 SRCS = main.c
 OBJS = $(SRCS:.c=.o)
@@ -17,3 +17,5 @@ $(TARGET): $(OBJS)
 
 clean:
 	rm -f $(OBJS) $(TARGET)
+
+
