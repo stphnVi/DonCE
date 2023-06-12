@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
     // Inicializar SDL
     if (SDL_Init(SDL_INIT_VIDEO) < 0)
     {
-        printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
+        SDL_GetError();
         return 1;
     }
 
@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
     SDL_Window *window = SDL_CreateWindow("Tilemap Example", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 800, 600, SDL_WINDOW_SHOWN);
     if (window == NULL)
     {
-        printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
+        SDL_GetError();
         return 1;
     }
 
@@ -29,12 +29,12 @@ int main(int argc, char *argv[])
     SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     if (renderer == NULL)
     {
-        printf("Renderer could not be created! SDL_Error: %s\n", SDL_GetError());
+        SDL_GetError();
         return 1;
     }
 
     // Cargar textura del BMP
-    SDL_Texture *texture = LoadTexture(renderer, "DKMap.bmp");
+    SDL_Texture *texture = LoadTexture(renderer, "./DKMap.bmp");
     if (texture == NULL)
     {
         SDL_DestroyRenderer(renderer);
@@ -93,14 +93,14 @@ SDL_Texture *LoadTexture(SDL_Renderer *renderer, const char *imagePath)
     SDL_Surface *surface = IMG_Load(imagePath);
     if (surface == NULL)
     {
-        printf("Error loading image: %s\n", IMG_GetError());
+        IMG_GetError();
         return NULL;
     }
 
     SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
     if (texture == NULL)
     {
-        printf("Error creating texture: %s\n", SDL_GetError());
+        SDL_GetError();
         SDL_FreeSurface(surface);
         return NULL;
     }
