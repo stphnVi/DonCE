@@ -1,121 +1,51 @@
+#include <stdio.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_main.h>
-#include <SDL2/SDL_image.h>
-#include <stdio.h>
 #include "user.h"
-#define NO_STDIO_REDIRECT
+#define TILE_SIZE 43
 
-#define TILE_SIZE 32
-#define MAP_WIDTH 10
-#define MAP_HEIGHT 10
+// Incluir el archivo con las constantes del tilemap
+// ...
 
-void DrawTile(SDL_Renderer *renderer, SDL_Texture *texture, int tileX, int tileY);
-
-void runGame()
+void moveCharacter(SDL_Rect *characterRect, int *prevX, int *prevY, int map[MAP_WIDTH][MAP_HEIGHT])
 {
-    SDL_Init(SDL_INIT_VIDEO);
-
-    SDL_Window *window = SDL_CreateWindow("SDL2 Window", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 2000, 2000, SDL_WINDOW_SHOWN);
-    if (window == NULL)
-    {
-        printf("Error creating window: %s\n", SDL_GetError());
-        return;
-    }
-
-    SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-    if (renderer == NULL)
-    {
-        printf("Error creating renderer: %s\n", SDL_GetError());
-        return;
-    }
-
-    SDL_Texture *mapTexture = LoadTexture(renderer, "DKMap.bmp");
-    if (mapTexture == NULL)
-    {
-        SDL_DestroyRenderer(renderer);
-        SDL_DestroyWindow(window);
-        SDL_Quit();
-        return;
-    }
-
-    int map[MAP_WIDTH][MAP_HEIGHT] = {
-        {0, 1, 2, 3, 4, 5, 6, 7, 8, 9},
-        // Agrega aquí los índices de los tiles de tu mapa
-    };
-
-    SDL_Rect characterRect;
-    characterRect.x = 100; // Posición inicial del personaje
-    characterRect.y = 100;
-    characterRect.w = 50; // Ancho del personaje
-    characterRect.h = 50;
-
-    int prevX = characterRect.x;
-    int prevY = characterRect.y;
-
+    // Guardar las coordenadas actuales del personaje
+    printf("El valor de num es: %d\n", characterRect->y);
+    *prevX = characterRect->x;
+    *prevY = characterRect->y;
     SDL_Event event;
-    int quit = 0;
-    while (!quit)
+
+    // Obtener la tecla presionada
+    const Uint8 *keystate = SDL_GetKeyboardState(NULL);
+
+    // Mover el personaje tile por tile en función de la tecla presionada
+    if (keystate[SDL_SCANCODE_UP] && characterRect->y > 0)
     {
-        while (SDL_PollEvent(&event))
+        printf("tecla up: %d\n", characterRect->y);
+        if (map[characterRect->x / TILE_SIZE][(characterRect->y - TILE_SIZE) / TILE_SIZE] == 0)
         {
-            if (event.type == SDL_QUIT)
-            {
-                quit = 1;
-            }
+            characterRect->y -= TILE_SIZE;
         }
-
-        // moveCharacter(&characterRect, &prevX, &prevY);
-
-        SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
-        SDL_RenderClear(renderer);
-
-        // Dibujar el tilemap
-        for (int y = 0; y < MAP_HEIGHT; y++)
+    }
+    else if (keystate[SDL_SCANCODE_DOWN] && characterRect->y < (MAP_HEIGHT - 1) * TILE_SIZE)
+    {
+        if (map[characterRect->x / TILE_SIZE][(characterRect->y + TILE_SIZE) / TILE_SIZE] == 0)
         {
-            for (int x = 0; x < MAP_WIDTH; x++)
-            {
-                int tileIndex = map[x][y];
-                DrawTile(renderer, mapTexture, x, y);
-            }
+            characterRect->y += TILE_SIZE;
         }
-
-        // Dibujar el personaje
-        SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-        SDL_RenderFillRect(renderer, &characterRect);
-
-        SDL_RenderPresent(renderer);
     }
-
-    SDL_DestroyTexture(mapTexture);
-    SDL_DestroyRenderer(renderer);
-    SDL_DestroyWindow(window);
-    SDL_Quit();
-}
-
-SDL_Texture *LoadTexture(SDL_Renderer *renderer, const char *imagePath)
-{
-    SDL_Surface *surface = IMG_Load(imagePath);
-    if (surface == NULL)
+    else if (keystate[SDL_SCANCODE_LEFT] && characterRect->x > 0)
     {
-        printf("Error loading image: %s\n", IMG_GetError());
-        return NULL;
+        if (map[(characterRect->x - TILE_SIZE) / TILE_SIZE][characterRect->y / TILE_SIZE] == 0)
+        {
+            characterRect->x -= TILE_SIZE;
+        }
     }
-
-    SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
-    if (texture == NULL)
+    else if (keystate[SDL_SCANCODE_RIGHT] && characterRect->x < (MAP_WIDTH - 1) * TILE_SIZE)
     {
-        printf("Error creating texture: %s\n", SDL_GetError());
-        SDL_FreeSurface(surface);
-        return NULL;
+        if (map[(characterRect->x + TILE_SIZE) / TILE_SIZE][characterRect->y / TILE_SIZE] == 0)
+        {
+            characterRect->x += TILE_SIZE;
+        }
     }
-
-    SDL_FreeSurface(surface);
-    return texture;
-}
-
-void DrawTile(SDL_Renderer *renderer, SDL_Texture *texture, int tileX, int tileY)
-{
-    SDL_Rect srcRect = {0, 0, TILE_SIZE, TILE_SIZE};
-    SDL_Rect destRect = {tileX * TILE_SIZE, tileY * TILE_SIZE, TILE_SIZE, TILE_SIZE};
-    SDL_RenderCopy(renderer, texture, &srcRect, &destRect);
 }

@@ -2,54 +2,52 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_main.h>
 #include "user.h"
+#define TILE_SIZE 43
 
-void moveCharacter(SDL_Rect *characterRect, int *prevX, int *prevY)
+// Incluir el archivo con las constantes del tilemap
+// ...
+
+void moveCharacter(SDL_Rect *characterRect, int *prevX, int *prevY, int map[MAP_WIDTH][MAP_HEIGHT])
 {
-    SDL_Event event;
-    if (SDL_PollEvent(&event))
+    // Guardar las coordenadas actuales del personaje
+
+    *prevX = characterRect->x;
+    *prevY = characterRect->y;
+
+    // Obtener la tecla presionada
+    const Uint8 *keystate = SDL_GetKeyboardState(NULL);
+
+    // Mover el personaje tile por tile en función de la tecla presionada
+    int moveSpeed = TILE_SIZE / 10;
+    if (keystate[SDL_SCANCODE_UP] && characterRect->y > 0)
     {
-        switch (event.type)
+        printf("tecla up: %d\n", characterRect->y);
+        if (map[characterRect->x / TILE_SIZE][(characterRect->y - TILE_SIZE) / TILE_SIZE] == 0)
         {
-        case SDL_KEYDOWN:
-            switch (event.key.keysym.sym)
-            {
-            case SDLK_UP:
-                if (characterRect->y - GRID_SIZE >= 0 && characterRect->y != *prevY)
-                {
-                    *prevY = characterRect->y;
-                    characterRect->y -= GRID_SIZE;
-                }
-                break;
+            characterRect->y -= TILE_SIZE;
+        }
+    }
+    else if (keystate[SDL_SCANCODE_DOWN] && characterRect->y < (MAP_HEIGHT - 1) * TILE_SIZE)
+    {
+        printf("tecla down: %d\n", characterRect->y);
+        if (map[characterRect->x / TILE_SIZE][(characterRect->y + TILE_SIZE) / TILE_SIZE] == 0)
+        {
 
-            case SDLK_DOWN:
-                if (characterRect->y + GRID_SIZE <= 600 - characterRect->h && characterRect->y != *prevY)
-                {
-                    *prevY = characterRect->y;
-                    characterRect->y += GRID_SIZE;
-                }
-                break;
-
-            case SDLK_LEFT:
-                if (characterRect->x - GRID_SIZE >= 0 && characterRect->x != *prevX)
-                {
-                    *prevX = characterRect->x;
-                    characterRect->x -= GRID_SIZE;
-                }
-                break;
-
-            case SDLK_RIGHT:
-                if (characterRect->x + GRID_SIZE <= 1000 - characterRect->w && characterRect->x != *prevX)
-                {
-                    *prevX = characterRect->x;
-                    characterRect->x += GRID_SIZE;
-                }
-                break;
-            }
-            break;
-
-        case SDL_QUIT:
-            exit(0);
-            break;
+            characterRect->y += TILE_SIZE;
+        }
+    }
+    else if (keystate[SDL_SCANCODE_LEFT] && characterRect->x > 0)
+    {
+        if (map[(characterRect->x - TILE_SIZE) / TILE_SIZE][characterRect->y / TILE_SIZE] == 0)
+        {
+            characterRect->x -= TILE_SIZE;
+        }
+    }
+    else if (keystate[SDL_SCANCODE_RIGHT] && characterRect->x < (MAP_WIDTH - 1) * TILE_SIZE)
+    {
+        if (map[(characterRect->x + TILE_SIZE) / TILE_SIZE][characterRect->y / TILE_SIZE] == 0)
+        {
+            characterRect->x += TILE_SIZE;
         }
     }
 }

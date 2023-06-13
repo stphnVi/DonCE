@@ -1,6 +1,8 @@
 #include <SDL2/SDL.h>
 #include "screen.h"
 #include "load_texture.h"
+#include "user.h"
+#include <stdio.h>
 
 #define TILE_SIZE 43
 #define MAP_WIDTH 22
@@ -12,14 +14,13 @@ void runGame(SDL_Renderer *renderer)
     SDL_Texture *tileTextures[NUM_TILE_TYPES];
 
     // Cargar texturas para cada tipo de tile
-
-    tileTextures[0] = LoadTexture(renderer, "./Assets/sprites/static/39-dirt.png");
+    tileTextures[0] = LoadTexture(renderer, "./Assets/sprites/static/black.png");
     tileTextures[1] = LoadTexture(renderer, "./Assets/sprites/static/37-water.png");
     tileTextures[2] = LoadTexture(renderer, "./Assets/sprites/static/38-water2.png");
     tileTextures[3] = LoadTexture(renderer, "./Assets/sprites/static/41-grass1.png");
     tileTextures[4] = LoadTexture(renderer, "./Assets/sprites/static/42-grass2.png");
     tileTextures[5] = LoadTexture(renderer, "./Assets/sprites/static/43-grass3.png");
-    tileTextures[6] = LoadTexture(renderer, "./Assets/sprites/static/black.png");
+    tileTextures[6] = LoadTexture(renderer, "./Assets/sprites/static/39-dirt.png");
 
     tileTextures[7] = LoadTexture(renderer, "./Assets/sprites/static/57-vine1.png");
     tileTextures[8] = LoadTexture(renderer, "./Assets/sprites/static/58-vine2.png");
@@ -30,32 +31,44 @@ void runGame(SDL_Renderer *renderer)
     tileTextures[14] = LoadTexture(renderer, "./Assets/sprites/donkey_jr/08-r004.png");
 
     int tilemap[MAP_WIDTH][MAP_HEIGHT] = {
-        {6, 6, 6, 11, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 3, 2},
-        {6, 6, 6, 11, 7, 8, 7, 7, 7, 7, 7, 8, 7, 6, 4, 2},
-        {6, 6, 13, 11, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 4, 2},
-        {6, 6, 6, 11, 8, 7, 8, 7, 8, 8, 7, 7, 7, 6, 4, 2},
-        {6, 6, 6, 11, 6, 6, 6, 11, 6, 6, 11, 6, 6, 6, 4, 2},
-        {6, 6, 14, 11, 6, 6, 6, 11, 7, 8, 11, 6, 6, 6, 5, 2},
-        {6, 6, 6, 11, 6, 6, 6, 6, 6, 6, 11, 6, 6, 6, 6, 2},
-        {6, 6, 6, 11, 6, 6, 6, 6, 6, 6, 11, 6, 6, 6, 6, 2},
-        {6, 6, 6, 11, 7, 7, 8, 7, 7, 8, 7, 6, 3, 6, 6, 2},
-        {6, 6, 6, 11, 11, 6, 6, 6, 6, 6, 6, 6, 4, 0, 0, 2},
-        {6, 6, 6, 6, 11, 7, 7, 8, 7, 7, 8, 6, 4, 0, 0, 2},
-        {6, 6, 6, 6, 11, 6, 6, 6, 6, 6, 6, 6, 5, 6, 6, 2},
-        {6, 6, 6, 6, 11, 7, 7, 7, 7, 7, 8, 7, 6, 3, 6, 2},
-        {6, 6, 6, 6, 11, 6, 6, 6, 6, 6, 6, 6, 6, 4, 0, 2},
-        {6, 6, 6, 6, 11, 6, 6, 6, 6, 6, 6, 6, 6, 5, 6, 2},
-        {6, 6, 6, 6, 11, 7, 7, 7, 7, 7, 8, 6, 3, 6, 6, 2},
-        {6, 6, 6, 8, 7, 7, 7, 8, 11, 6, 6, 6, 4, 0, 0, 2},
-        {6, 6, 6, 6, 6, 6, 6, 6, 11, 6, 6, 6, 5, 6, 6, 2},
-        {6, 6, 6, 6, 6, 6, 6, 6, 11, 8, 6, 3, 6, 6, 6, 2},
-        {6, 6, 6, 8, 8, 7, 8, 7, 11, 6, 6, 4, 0, 0, 0, 2},
-        {6, 6, 6, 6, 6, 6, 6, 6, 11, 6, 6, 4, 0, 0, 0, 2},
-        {6, 6, 6, 6, 6, 6, 6, 6, 11, 6, 6, 5, 6, 6, 6, 2},
+        {0, 0, 0, 11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 2},
+        {0, 0, 0, 11, 7, 8, 7, 7, 7, 7, 7, 8, 7, 0, 4, 2},
+        {0, 0, 13, 11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 2},
+        {0, 0, 0, 11, 8, 7, 8, 7, 8, 8, 7, 7, 7, 0, 4, 2},
+        {0, 0, 0, 11, 0, 0, 0, 11, 0, 0, 11, 0, 0, 0, 4, 2},
+        {0, 0, 14, 11, 0, 0, 0, 11, 7, 8, 11, 0, 0, 0, 5, 2},
+        {0, 0, 0, 11, 0, 0, 0, 0, 0, 0, 11, 0, 0, 0, 0, 2},
+        {0, 0, 0, 11, 0, 0, 0, 0, 0, 0, 11, 0, 0, 0, 0, 2},
+        {0, 0, 0, 11, 7, 7, 8, 7, 7, 8, 7, 0, 3, 0, 0, 2},
+        {0, 0, 0, 11, 11, 0, 0, 0, 0, 0, 0, 0, 4, 6, 6, 2},
+        {0, 0, 0, 0, 11, 7, 7, 8, 7, 7, 8, 0, 4, 6, 6, 2},
+        {0, 0, 0, 0, 11, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 2},
+        {0, 0, 0, 0, 11, 7, 7, 7, 7, 7, 8, 7, 0, 3, 0, 2},
+        {0, 0, 0, 0, 11, 0, 0, 0, 0, 0, 0, 0, 0, 4, 6, 2},
+        {0, 0, 0, 0, 11, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 2},
+        {0, 0, 0, 0, 11, 7, 7, 7, 7, 7, 8, 0, 3, 0, 0, 2},
+        {0, 0, 0, 8, 7, 7, 7, 8, 11, 0, 0, 0, 4, 6, 6, 2},
+        {0, 0, 0, 0, 0, 0, 0, 0, 11, 0, 0, 0, 5, 0, 0, 2},
+        {0, 0, 0, 0, 0, 0, 0, 0, 11, 8, 0, 3, 0, 0, 0, 2},
+        {0, 0, 0, 8, 8, 7, 8, 7, 11, 0, 0, 4, 6, 6, 6, 2},
+        {0, 0, 0, 0, 0, 0, 0, 0, 11, 0, 0, 4, 6, 6, 6, 2},
+        {0, 0, 0, 0, 0, 0, 0, 0, 11, 0, 0, 5, 0, 0, 0, 2}
+
     };
 
+    // manejo de eventos
     SDL_Event event;
+    SDL_Rect characterRect;
+    characterRect.x = 0; // Posición inicial del personaje
+    characterRect.y = 0;
+    characterRect.w = 43; // Ancho del personaje
+    characterRect.h = 43;
+
+    int prevX = characterRect.x;
+    int prevY = characterRect.y;
+
     int quit = 0;
+
     while (!quit)
     {
         while (SDL_PollEvent(&event))
@@ -65,6 +78,8 @@ void runGame(SDL_Renderer *renderer)
                 quit = 1;
             }
         }
+
+        moveCharacter(&characterRect, &prevX, &prevY, tilemap);
 
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
@@ -85,6 +100,10 @@ void runGame(SDL_Renderer *renderer)
                 SDL_RenderCopy(renderer, tileTextures[tileIndex], NULL, &destRect);
             }
         }
+
+        // Dibujar el personaje
+        SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+        SDL_RenderFillRect(renderer, &characterRect);
 
         SDL_RenderPresent(renderer);
     }

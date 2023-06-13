@@ -1,12 +1,10 @@
 // user.h
-
 #ifndef USER_H
 #define USER_H
-#define GRID_SIZE 32
+#define MAP_WIDTH 22
+#define MAP_HEIGHT 16
+#include <SDL2/SDL.h>
 
-void moveUp();
-void moveDown();
-void moveLeft();
-void moveRight();
+void moveCharacter(SDL_Rect *characterRect, int *prevX, int *prevY, int map[MAP_WIDTH][MAP_HEIGHT]);
 
-#endif
+#endif // USER_H
