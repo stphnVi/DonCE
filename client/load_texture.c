@@ -1,6 +1,4 @@
-#include <SDL2/SDL_image.h>
-#include <stdio.h>
-#include "load_texture.h"
+#include "constants.h"
 
 SDL_Texture *LoadTexture(SDL_Renderer *renderer, const char *imagePath)
 {

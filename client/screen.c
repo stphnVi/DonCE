@@ -1,13 +1,4 @@
-#include <SDL2/SDL.h>
-#include "screen.h"
-#include "load_texture.h"
-#include "user.h"
-#include <stdio.h>
-
-#define TILE_SIZE 43
-#define MAP_WIDTH 22
-#define MAP_HEIGHT 16
-#define NUM_TILE_TYPES 20
+#include "constants.h"
 
 void runGame(SDL_Renderer *renderer)
 {

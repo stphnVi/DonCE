@@ -1,11 +1,4 @@
-#include <stdio.h>
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_main.h>
-#include "user.h"
-#define TILE_SIZE 43
-
-// Incluir el archivo con las constantes del tilemap
-// ...
+#include "constants.h"
 
 void moveCharacter(SDL_Rect *characterRect, int *prevX, int *prevY, int map[MAP_WIDTH][MAP_HEIGHT])
 {

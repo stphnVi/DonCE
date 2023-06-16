@@ -1,7 +1,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_main.h>
 #include <stdio.h>
-#include "screen.h"
+#include "constants.h"
 
 int main(int argc, char *argv[])
 {
