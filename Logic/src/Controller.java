@@ -1,124 +1,85 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
 
 
 public class Controller{
 
 //___________________________Incializacion de variables________________________________________
     //Revisar polimorfismo
-    Fruta banana = new Fruta(2, 3, 100);
+    DonCE donce = new DonCE();
+    Fruta banana = new Fruta(2, 3, 100, "banano");
+    Fruta fresa = new Fruta(1, 5, 50, "fresa");
     Cocodrilo cocodrilo = new Cocodrilo("azul", 3, 50);
     Jugador DKjr = new Jugador(3, 0, 1);
 
-    List<Fruta> frutas = new ArrayList<>();
-    List<Cocodrilo> cocodrilos = new ArrayList<>();
-
-    public void agregar() {
-        frutas.add(banana);
-        cocodrilos.add(cocodrilo);
+    public void init(){
+        donce.agregarFruta(banana);
+        donce.agregarFruta(fresa);
+        donce.agregarCocodrilo(cocodrilo);
+        System.out.println(donce.frutas);
+        donce.eliminarFruta(banana);
+        System.out.println(donce.frutas);
+        System.out.println(donce.cocodrilos);
     }
 
-    List<Integer> posJugador = new ArrayList<>(); //posicion del jugador
-    List<Integer> posDK = new ArrayList<>(); //posicion de DK, posicion ganadora
-    List<List<Integer>> posFrutas = new ArrayList<>(); //matriz de las posiciones de las frutas
-    List<List<Integer>> posCocodrilos = new ArrayList<>(); //matriz de las posiciones de los cocodrilos
 
-//___________________________Leer TXT_______________________________________________________
 
-public void readtxt(){
-    String filePath = "data.txt";
+//___________________________Leer Mensaje del Cliente_______________________________________________________
 
-    try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-        String line;
-        while ((line = reader.readLine()) != null) {
-            if (line.contains("posJugador:")) {
-                posJugador = parseList(line);
-            } else if (line.contains("posFrutas:")) {
-                posFrutas = parseMatrix(line);
-            } else if (line.contains("posCocodrilos:")) {
-                posCocodrilos = parseMatrix(line);
+    public void readClient(String cadena){
+
+        // Obtener la lista de valores de posJugador
+        int inicioPosJugador = cadena.indexOf("[");
+        int finPosJugador = cadena.indexOf("]");
+        String listaPosJugador = cadena.substring(inicioPosJugador + 1, finPosJugador);
+        String[] valoresPosJugador = listaPosJugador.split(",");
+        
+        for (String valor : valoresPosJugador) {
+            donce.posJugador.add(Integer.parseInt(valor));
+        }
+        
+        // Obtener la lista de valores de posCocodrilos
+        int inicioPosCocodrilos = cadena.lastIndexOf("[[");
+        int finPosCocodrilos = cadena.lastIndexOf("]]");
+        String listaPosCocodrilos = cadena.substring(inicioPosCocodrilos + 2, finPosCocodrilos);
+        String[] elementosPosCocodrilos = listaPosCocodrilos.split("\\],\\[");
+        
+        for (String elemento : elementosPosCocodrilos) {
+            String[] valores = elemento.split(",");
+            List<Integer> posiciones = new ArrayList<>();
+            for (String valor : valores) {
+                posiciones.add(Integer.parseInt(valor));
             }
+            donce.posCocodrilos.add(posiciones);
         }
-    } catch (IOException e) {
-        e.printStackTrace();
+        
+        // Imprimir los resultados
+        System.out.println("Valores de posJugador: " + donce.posJugador);
+        System.out.println("Valores de posCocodrilos: " + donce.posCocodrilos);
     }
 
-    // Imprimir las listas
-    System.out.println("posJugador: " + posJugador);
-    System.out.println("posFrutas: " + posFrutas);
-    System.out.println("posCocodrilos: " + posCocodrilos);
-}
-
-private static List<Integer> parseList(String line) {
-    Pattern pattern = Pattern.compile("\\[(\\d+(,\\s*\\d+)*)\\]");
-    Matcher matcher = pattern.matcher(line);
-    List<Integer> list = new ArrayList<>();
-
-    if (matcher.find()) {
-        String numbers = matcher.group(1);
-        String[] numberArr = numbers.split(",\\s*");
-
-        for (String number : numberArr) {
-            list.add(Integer.parseInt(number.trim()));
-        }
-    }
-
-    return list;
-}
-
-private static List<List<Integer>> parseMatrix(String line) {
-    Pattern pattern = Pattern.compile("\\[(\\[(\\d+(,\\s*\\d+)*)\\](,\\s*)?)*\\]");
-    Matcher matcher = pattern.matcher(line);
-    List<List<Integer>> matrix = new ArrayList<>();
-
-    if (matcher.find()) {
-        String matrixContent = matcher.group();
-        Matcher numberMatcher = Pattern.compile("\\[(\\d+(,\\s*\\d+)*)\\]").matcher(matrixContent);
-
-        while (numberMatcher.find()) {
-            String numbers = numberMatcher.group(1);
-            String[] numberArr = numbers.split(",\\s*");
-            List<Integer> row = new ArrayList<>();
-
-            for (String number : numberArr) {
-                row.add(Integer.parseInt(number.trim()));
-            }
-
-            matrix.add(row);
-        }
-    }
-
-    return matrix;
-}
 
 //___________________________Controlar estados______________________________________________
 
     public void controll(){
-        for(int i = 0; i < posFrutas.size()-1; i++){
+        for(int i = 0; i < donce.posFrutas.size()-1; i++){ //cambiar limite debe funcionar para todas las listas
             //Si el jugador y la fruta tienen la misma posicion 
-            if(posJugador.equals(posFrutas.get(i))){
-                DKjr.eatFruit(frutas.get(i));
-                frutas.get(i).eliminar();
+            if(donce.posJugador.equals(donce.posFrutas.get(i))){
+                DKjr.eatFruit(donce.frutas.get(i)); //se elimina dentro de eatFruit
                 break;
             }
-
-            if(posJugador.equals(posCocodrilos.get(i))){
+        }
+        for(int i = 0; i < donce.posCocodrilos.size()-1; i++){
+            if(donce.posJugador.equals(donce.posCocodrilos.get(i))){
                 DKjr.die();
                 //reiniciar nivel
                 break;
             }
+        }
 
-            if(posJugador.equals(posDK)){
-                DKjr.win();
-                break;
-            }
-        }  
+        if(donce.posJugador.equals(donce.posDK)){
+            DKjr.win();
+        }
     }
 }

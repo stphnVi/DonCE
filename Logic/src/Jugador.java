@@ -1,4 +1,4 @@
-public class Jugador implements DonCE{
+public class Jugador extends DonCE{
 
     Integer vidas;
     Integer puntos;
@@ -14,6 +14,7 @@ public class Jugador implements DonCE{
         System.out.println("*** Felicidades, has ganado! ***\nLVL UP +1 vida <3");
         this.vidas = vidas + 1; //Si el jugador gana se suma una vida
         this.nivel = nivel + 1; //Sube de nivel y aumenta la velocidad de los cocodrilos
+        addIntruction("win:" + Integer.toString(nivel));
     }
 
     public void eatFruit(Fruta fruit){
@@ -27,5 +28,11 @@ public class Jugador implements DonCE{
         this.vidas = vidas - 1;
         this.puntos = 0;
         //Reiniciar nivel
+        addIntruction("die");
+    }
+
+    public void addIntruction(String instruction){
+         //Enviar al cliente
+
     }
 }
