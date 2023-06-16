@@ -6,5 +6,6 @@
 #include <SDL2/SDL.h>
 
 void moveCharacter(SDL_Rect *characterRect, int *prevX, int *prevY, int map[MAP_WIDTH][MAP_HEIGHT]);
-
+int getTileCoordinates(int position);
+void getCharacterTileCoordinates(SDL_Rect characterRect, int *tileX, int *tileY);
 #endif // USER_H

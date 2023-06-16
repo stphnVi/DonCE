@@ -18,7 +18,7 @@ void moveCharacter(SDL_Rect *characterRect, int *prevX, int *prevY, int map[MAP_
     const Uint8 *keystate = SDL_GetKeyboardState(NULL);
 
     // Mover el personaje tile por tile en función de la tecla presionada
-    int moveSpeed = TILE_SIZE / 10;
+
     if (keystate[SDL_SCANCODE_UP] && characterRect->y > 0)
     {
         printf("tecla up: %d\n", characterRect->y);
@@ -50,4 +50,15 @@ void moveCharacter(SDL_Rect *characterRect, int *prevX, int *prevY, int map[MAP_
             characterRect->x += TILE_SIZE;
         }
     }
+}
+
+int getTileCoordinates(int position)
+{
+    return position / TILE_SIZE;
+}
+
+void getCharacterTileCoordinates(SDL_Rect characterRect, int *tileX, int *tileY)
+{
+    *tileX = getTileCoordinates(characterRect.x);
+    *tileY = getTileCoordinates(characterRect.y);
 }

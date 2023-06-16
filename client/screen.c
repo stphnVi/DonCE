@@ -60,7 +60,7 @@ void runGame(SDL_Renderer *renderer)
     SDL_Event event;
     SDL_Rect characterRect;
     characterRect.x = 0; // Posición inicial del personaje
-    characterRect.y = 0;
+    characterRect.y = 600;
     characterRect.w = 43; // Ancho del personaje
     characterRect.h = 43;
 
@@ -80,7 +80,10 @@ void runGame(SDL_Renderer *renderer)
         }
 
         moveCharacter(&characterRect, &prevX, &prevY, tilemap);
+        int characterTileX, characterTileY;
+        getCharacterTileCoordinates(characterRect, &characterTileX, &characterTileY);
 
+        printf("Personaje en el tile (%d, %d)\n", characterTileX, characterTileY);
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
 
