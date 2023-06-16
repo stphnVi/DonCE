@@ -6,14 +6,12 @@ ClientInstance* clientInstances[MAX_CLIENTS];
 int numClients=0;//Se inicializa en cero
 
 //funcion que inicializa el socket
-int socksInit() {
+void socksInit() {
     WSADATA wsa;
     if (WSAStartup(MAKEWORD(2,2),&wsa) != 0)
     {
         printf("Failed. Error Code : %d",WSAGetLastError());
-        return 1;
     }
-    return 0;
 }
 
 //Funcion que inicializa el cliente
@@ -76,7 +74,7 @@ int sendData(ClientInstance* client, char* data) {
         printf(ERR_SEND, WSAGetLastError());
     else{
         printf("Client attempts to send: %s \n", data);
-        return 1;}
+        return 0;}
 }
 
 char* readData(ClientInstance* client) {

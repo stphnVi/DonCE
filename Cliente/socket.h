@@ -28,7 +28,7 @@ typedef struct{
     char data[MAX_BUFF_LEN];
 } ClientInstance;//struct que define una instancia de cliente
 
-int socksInit();
+void socksInit();
 
 int start(ClientInstance* client);
 
