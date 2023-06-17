@@ -3,6 +3,7 @@
 void runGame(SDL_Renderer *renderer)
 {
     SDL_Texture *tileTextures[NUM_TILE_TYPES];
+    TilemapDynamic tilemapDynamic;
 
     // Cargar texturas para cada tipo de tile
     tileTextures[0] = LoadTexture(renderer, "./Assets/sprites/static/black.png");
@@ -12,12 +13,10 @@ void runGame(SDL_Renderer *renderer)
     tileTextures[4] = LoadTexture(renderer, "./Assets/sprites/static/42-grass2.png");
     tileTextures[5] = LoadTexture(renderer, "./Assets/sprites/static/43-grass3.png");
     tileTextures[6] = LoadTexture(renderer, "./Assets/sprites/static/39-dirt.png");
-
     tileTextures[7] = LoadTexture(renderer, "./Assets/sprites/static/57-vine1.png");
     tileTextures[8] = LoadTexture(renderer, "./Assets/sprites/static/58-vine2.png");
     tileTextures[10] = LoadTexture(renderer, "./Assets/sprites/static/36-longvine.png");
     tileTextures[11] = LoadTexture(renderer, "./Assets/sprites/static/40-brick.png");
-
     tileTextures[13] = LoadTexture(renderer, "./Assets/sprites/donkey_kong/16-tile000.png");
     tileTextures[14] = LoadTexture(renderer, "./Assets/sprites/donkey_jr/08-r004.png");
 
@@ -46,7 +45,6 @@ void runGame(SDL_Renderer *renderer)
         {0, 0, 0, 0, 0, 0, 0, 0, 11, 0, 0, 5, 0, 0, 0, 2}
 
     };
-
     // manejo de eventos
     SDL_Event event;
     SDL_Rect characterRect;
@@ -54,9 +52,9 @@ void runGame(SDL_Renderer *renderer)
     characterRect.y = 600;
     characterRect.w = 43; // Ancho del personaje
     characterRect.h = 43;
-
     int prevX = characterRect.x;
     int prevY = characterRect.y;
+    initializeTilemap(&tilemapDynamic);
 
     int quit = 0;
 
@@ -70,11 +68,18 @@ void runGame(SDL_Renderer *renderer)
             }
         }
 
+        //                          _________________________________
+        //________________________/  Mover jugador
+
         moveCharacter(&characterRect, &prevX, &prevY, tilemap);
+
+        //                          ___________________________________
+        //________________________/  obtener coordenadas del personaje
+
         int characterTileX, characterTileY;
         getCharacterTileCoordinates(characterRect, &characterTileX, &characterTileY);
+        // printf("Personaje en el tile (%d, %d)\n", characterTileX, characterTileY);
 
-        printf("Personaje en el tile (%d, %d)\n", characterTileX, characterTileY);
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
 
@@ -99,6 +104,16 @@ void runGame(SDL_Renderer *renderer)
         SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
         SDL_RenderFillRect(renderer, &characterRect);
 
+        // Dibujar el tilemap dinámico
+
+        //                          _________________________________
+        //________________________/  Dibujar frutas
+
+        setDynamicTile(&tilemapDynamic, renderer, 5, 5, 0);
+        setDynamicTile(&tilemapDynamic, renderer, 5, 13, 1);
+        setDynamicTile(&tilemapDynamic, renderer, 10, 2, 2);
+
+        // actualizar ventana
         SDL_RenderPresent(renderer);
     }
 

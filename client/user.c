@@ -14,7 +14,7 @@ void moveCharacter(SDL_Rect *characterRect, int *prevX, int *prevY, int map[MAP_
 
     if (keystate[SDL_SCANCODE_UP] && characterRect->y > 0)
     {
-        printf("tecla up: %d\n", characterRect->y);
+        // printf("tecla up: %d\n", characterRect->y);
         if (map[characterRect->x / TILE_SIZE][(characterRect->y - TILE_SIZE) / TILE_SIZE] == 0)
         {
             characterRect->y -= TILE_SIZE;
@@ -22,7 +22,7 @@ void moveCharacter(SDL_Rect *characterRect, int *prevX, int *prevY, int map[MAP_
     }
     else if (keystate[SDL_SCANCODE_DOWN] && characterRect->y < (MAP_HEIGHT - 1) * TILE_SIZE)
     {
-        printf("tecla down: %d\n", characterRect->y);
+        // printf("tecla down: %d\n", characterRect->y);
         if (map[characterRect->x / TILE_SIZE][(characterRect->y + TILE_SIZE) / TILE_SIZE] == 0)
         {
 
@@ -44,6 +44,8 @@ void moveCharacter(SDL_Rect *characterRect, int *prevX, int *prevY, int map[MAP_
         }
     }
 }
+
+// obtener posicion del jugador en el tilemap
 
 int getTileCoordinates(int position)
 {
