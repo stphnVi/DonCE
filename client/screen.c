@@ -5,6 +5,12 @@ void runGame(SDL_Renderer *renderer)
     SDL_Texture *tileTextures[NUM_TILE_TYPES];
     TilemapDynamic tilemapDynamic;
 
+    char str1[] = "pos: 7: 9 - tile: 1 - accion: 1";
+    char str2[] = "pos: 7: 13 - tile: 1 - accion: 1";
+    char str3[] = "pos: 5: 5 - tile: 1 - accion: 1";
+    char str4[] = "pos: 7: 9 - tile: 1 - accion: 0";
+    char score[] = "5000";
+
     // Cargar texturas para cada tipo de tile
     tileTextures[0] = LoadTexture(renderer, "./Assets/sprites/static/black.png");
     tileTextures[1] = LoadTexture(renderer, "./Assets/sprites/static/37-water.png");
@@ -20,31 +26,6 @@ void runGame(SDL_Renderer *renderer)
     tileTextures[13] = LoadTexture(renderer, "./Assets/sprites/donkey_kong/16-tile000.png");
     tileTextures[14] = LoadTexture(renderer, "./Assets/sprites/donkey_jr/08-r004.png");
 
-    int tilemap[MAP_WIDTH][MAP_HEIGHT] = {
-        {0, 0, 0, 11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 2},
-        {0, 0, 0, 11, 7, 8, 7, 7, 7, 7, 7, 8, 7, 0, 4, 2},
-        {0, 0, 13, 11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 2},
-        {0, 0, 0, 11, 8, 7, 8, 7, 8, 8, 7, 7, 7, 0, 4, 2},
-        {0, 0, 0, 11, 0, 0, 0, 11, 0, 0, 11, 0, 0, 0, 4, 2},
-        {0, 0, 14, 11, 0, 0, 0, 11, 7, 8, 11, 0, 0, 0, 5, 2},
-        {0, 0, 0, 11, 0, 0, 0, 0, 0, 0, 11, 0, 0, 0, 0, 2},
-        {0, 0, 0, 11, 0, 0, 0, 0, 0, 0, 11, 0, 0, 0, 0, 2},
-        {0, 0, 0, 11, 7, 7, 8, 7, 7, 8, 7, 0, 3, 0, 0, 2},
-        {0, 0, 0, 11, 11, 0, 0, 0, 0, 0, 0, 0, 4, 6, 6, 2},
-        {0, 0, 0, 0, 11, 7, 7, 8, 7, 7, 8, 0, 4, 6, 6, 2},
-        {0, 0, 0, 0, 11, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 2},
-        {0, 0, 0, 0, 11, 7, 7, 7, 7, 7, 8, 7, 0, 3, 0, 2},
-        {0, 0, 0, 0, 11, 0, 0, 0, 0, 0, 0, 0, 0, 4, 6, 2},
-        {0, 0, 0, 0, 11, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 2},
-        {0, 0, 0, 0, 11, 7, 7, 7, 7, 7, 8, 0, 3, 0, 0, 2},
-        {0, 0, 0, 8, 7, 7, 7, 8, 11, 0, 0, 0, 4, 6, 6, 2},
-        {0, 0, 0, 0, 0, 0, 0, 0, 11, 0, 0, 0, 5, 0, 0, 2},
-        {0, 0, 0, 0, 0, 0, 0, 0, 11, 8, 0, 3, 0, 0, 0, 2},
-        {0, 0, 0, 8, 8, 7, 8, 7, 11, 0, 0, 4, 6, 6, 6, 2},
-        {0, 0, 0, 0, 0, 0, 0, 0, 11, 0, 0, 4, 6, 6, 6, 2},
-        {0, 0, 0, 0, 0, 0, 0, 0, 11, 0, 0, 5, 0, 0, 0, 2}
-
-    };
     // manejo de eventos
     SDL_Event event;
     SDL_Rect characterRect;
@@ -68,13 +49,13 @@ void runGame(SDL_Renderer *renderer)
             }
         }
 
-        //                          _________________________________
-        //________________________/  Mover jugador
+        //                                                 _________________________________
+        //_______________________________________________/  Mover jugador
 
         moveCharacter(&characterRect, &prevX, &prevY, tilemap);
 
-        //                          ___________________________________
-        //________________________/  obtener coordenadas del personaje
+        //                                                  ___________________________________
+        //________________________________________________/  obtener coordenadas del personaje
 
         int characterTileX, characterTileY;
         getCharacterTileCoordinates(characterRect, &characterTileX, &characterTileY);
@@ -106,12 +87,16 @@ void runGame(SDL_Renderer *renderer)
 
         // Dibujar el tilemap dinámico
 
-        //                          _________________________________
-        //________________________/  Dibujar frutas
+        //                                                   __________________________________________________________
+        //_________________________________________________/  Dibujar frutas  ej:(pos: 7:9 - tile: 1 - action: 1 o 0)
 
-        setDynamicTile(&tilemapDynamic, renderer, 5, 5, 0);
-        setDynamicTile(&tilemapDynamic, renderer, 5, 13, 1);
-        setDynamicTile(&tilemapDynamic, renderer, 10, 2, 2);
+        setDynamicTile(&tilemapDynamic, renderer, str1);
+        setDynamicTile(&tilemapDynamic, renderer, str2);
+        setDynamicTile(&tilemapDynamic, renderer, str3);
+        setDynamicTile(&tilemapDynamic, renderer, str4);
+
+        //                                                    _______
+        //__________________________________________________/  Score
 
         // actualizar ventana
         SDL_RenderPresent(renderer);

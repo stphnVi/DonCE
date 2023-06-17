@@ -7,25 +7,56 @@ void initializeTilemap(TilemapDynamic *tilemapDynamic)
     memset(tilemapDynamic->tiles, 0, sizeof(tilemapDynamic->tiles));
 }
 
-/*String a esperar por el server (pos: 7,9 - tile: 1 - action: 1 o 0)
+/*String a esperar por el server (pos: 7:9 - tile: 1 - action: 1 o 0)
 
 tiles
 
 -> Banano:1
--> Nispero:2
+-> Granada:2
 -> manzana:3
 
 */
 
-void setDynamicTile(TilemapDynamic *tilemapDynamic, SDL_Renderer *renderer, int x, int y, int tileID)
+void setDynamicTile(TilemapDynamic *tilemapDynamic, SDL_Renderer *renderer, char *fruit)
 {
+    char *token;
+    char *value;
+    int y;
+    int x;
+    int tileID;
+    int action;
+    int cont = 0;
+
+    // Buscar y leer los números utilizando sscanf()
+    if (sscanf(strstr(fruit, "pos:") + 4, "%d:%d", &x, &y) != 2)
+    {
+        printf("Error al leer la posición.\n");
+    }
+
+    if (sscanf(strstr(fruit, "tile:") + 5, "%d", &tileID) != 1)
+    {
+        printf("Error al leer el tile.\n");
+    }
+
+    if (sscanf(strstr(fruit, "accion:") + 7, "%d", &action) != 1)
+    {
+        printf("Error al leer la acción.\n");
+    }
+
     tileTextures[0] = LoadTexture(renderer, "./Assets/sprites/static/00-apple.png");
     tileTextures[1] = LoadTexture(renderer, "./Assets/sprites/static/01-banana.png");
-    tileTextures[2] = LoadTexture(renderer, "./Assets/sprites/static/02-berries.png");
+    tileTextures[2] = LoadTexture(renderer, "./Assets/sprites/static/02-granade.png");
 
     if (x >= 0 && x < MAP_WIDTH && y >= 0 && y < MAP_HEIGHT)
     {
-        tilemapDynamic->tiles[x][y] = tileID;
+        if (action == 0)
+        { // elimina tile
+            tilemapDynamic->tiles[x][y] = -1;
+        }
+        else
+        {
+            tilemapDynamic->tiles[x][y] = tileID;
+        }
     }
 
     SDL_Texture *texture = tileTextures[tileID];
@@ -39,64 +70,4 @@ void setDynamicTile(TilemapDynamic *tilemapDynamic, SDL_Renderer *renderer, int 
 
         SDL_RenderCopy(renderer, texture, NULL, &destRect);
     }
-
-    // printf("Entra a dynamicTile: %s\n");
 }
-
-/*
-void printTilemap(TilemapDynamic *tilemapDynamic)
-{
-    for (int i = 0; i < MAP_WIDTH; i++)
-    {
-        for (int j = 0; j < MAP_HEIGHT; j++)
-        {
-            printf("Entra  %s\n", tilemapDynamic->tiles[5][5]);
-            // printf("%d ", tilemapDynamic->tiles[5][5]);
-        }
-        printf("\n");
-    }
-}
-
-
-void setTile(TilemapDynamic *tilemap, int x, int y, int tile)
-{
-    if (x >= 0 && x < MAP_WIDTH && y >= 0 && y < MAP_HEIGHT)
-    {
-        // Cargar la imagen PNG
-        SDL_Surface *tileSurface = IMG_Load("./Assets/sprites/static/00-apple.png");
-        if (tileSurface == NULL)
-        {
-            printf("No se pudo cargar la imagen: %s\n", SDL_GetError());
-            return;
-        }
-
-        // Crear una textura a partir de la superficie cargada
-        SDL_Texture *tileTexture = SDL_CreateTextureFromSurface(renderer, tileSurface);
-        if (tileTexture == NULL)
-        {
-            printf("No se pudo crear la textura: %s\n", SDL_GetError());
-            SDL_FreeSurface(tileSurface);
-            return;
-        }
-
-        // Liberar la superficie, ya que no la necesitamos más
-        SDL_FreeSurface(tileSurface);
-
-        // Asignar la textura a la posición del tilemap
-        tilemap->tiles[x][y] = tile;
-    }
-}
-
-
-int getTile(TilemapMirror *tilemapMirror, int x, int y)
-{
-    if (x >= 0 && x < MAP_WIDTH && y >= 0 && y < MAP_HEIGHT)
-    {
-        return tilemapMirror->tiles[x][y];
-    }
-    return -1;
-}
-
-
-
-*/
