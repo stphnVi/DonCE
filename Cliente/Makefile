@@ -1,2 +1,2 @@
 all:	
-	gcc -o main main.c socket.c -lmingw32 -lwsock32
+	gcc -o main main.c network.c -lmingw32 -lwsock32
