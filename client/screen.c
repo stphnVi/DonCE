@@ -1,3 +1,4 @@
+
 #include "constants.h"
 
 void runGame(SDL_Renderer *renderer)
@@ -5,10 +6,11 @@ void runGame(SDL_Renderer *renderer)
     SDL_Texture *tileTextures[NUM_TILE_TYPES];
     TilemapDynamic tilemapDynamic;
 
-    char str1[] = "pos: 7: 9 - tile: 1 - accion: 1";
+    char str1[] = "pos: 7: 9 - tile: 0 - accion: 1";
     char str2[] = "pos: 7: 13 - tile: 1 - accion: 1";
-    char str3[] = "pos: 5: 5 - tile: 1 - accion: 1";
-    char str4[] = "pos: 7: 9 - tile: 1 - accion: 0";
+    char str3[] = "pos: 5: 5 - tile: 2 - accion: 1";
+    char str4[] = "pos: 7: 9 - tile: 0 - accion: 0";
+    const char *cocoData = "speed:1000 - ID: 1 - accion: 1 - pos: ((2,3),(2,6),(2,7))";
     char score[] = "5000";
 
     // Cargar texturas para cada tipo de tile
@@ -26,16 +28,43 @@ void runGame(SDL_Renderer *renderer)
     tileTextures[13] = LoadTexture(renderer, "./Assets/sprites/donkey_kong/16-tile000.png");
     tileTextures[14] = LoadTexture(renderer, "./Assets/sprites/donkey_jr/08-r004.png");
 
+    int tilemap[MAP_WIDTH][MAP_HEIGHT] = {
+        {0, 0, 0, 11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 2},
+        {0, 0, 0, 11, 7, 8, 7, 7, 7, 7, 7, 8, 0, 0, 4, 2},
+        {0, 0, 0, 11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 2},
+        {0, 0, 0, 11, 8, 7, 8, 7, 8, 8, 7, 7, 0, 0, 4, 2},
+        {0, 0, 0, 11, 0, 0, 0, 11, 0, 0, 11, 0, 0, 0, 4, 2},
+        {0, 0, 0, 11, 0, 0, 0, 11, 7, 8, 11, 0, 0, 0, 5, 2},
+        {0, 0, 0, 11, 0, 0, 0, 0, 0, 0, 11, 0, 0, 0, 0, 2},
+        {0, 0, 0, 11, 0, 0, 0, 0, 0, 0, 11, 0, 0, 0, 0, 2},
+        {0, 0, 0, 11, 7, 7, 8, 7, 7, 8, 0, 0, 3, 0, 0, 2},
+        {0, 0, 0, 11, 11, 0, 0, 0, 0, 0, 0, 0, 4, 6, 6, 2},
+        {0, 0, 0, 0, 11, 7, 7, 8, 7, 7, 0, 0, 4, 6, 6, 2},
+        {0, 0, 0, 0, 11, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 2},
+        {0, 0, 0, 0, 11, 7, 7, 7, 7, 7, 8, 0, 0, 3, 0, 2},
+        {0, 0, 0, 0, 11, 0, 0, 0, 0, 0, 0, 0, 0, 4, 6, 2},
+        {0, 0, 0, 0, 11, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 2},
+        {0, 0, 0, 0, 11, 7, 7, 7, 7, 7, 0, 0, 3, 0, 0, 2},
+        {0, 0, 0, 8, 7, 7, 7, 8, 11, 0, 0, 0, 4, 6, 6, 2},
+        {0, 0, 0, 0, 0, 0, 0, 0, 11, 0, 0, 0, 5, 0, 0, 2},
+        {0, 0, 0, 0, 0, 0, 0, 0, 11, 8, 0, 3, 0, 0, 0, 2},
+        {0, 0, 0, 8, 8, 7, 8, 7, 11, 0, 0, 4, 6, 6, 6, 2},
+        {0, 0, 0, 0, 0, 0, 0, 0, 11, 0, 0, 4, 6, 6, 6, 2},
+        {0, 0, 0, 0, 0, 0, 0, 0, 11, 0, 0, 5, 0, 0, 0, 2}
+
+    };
+
     // manejo de eventos
     SDL_Event event;
     SDL_Rect characterRect;
-    characterRect.x = 0; // Posición inicial del personaje
-    characterRect.y = 600;
+    characterRect.x = 43; // Posición inicial del personaje
+    characterRect.y = 559;
     characterRect.w = 43; // Ancho del personaje
     characterRect.h = 43;
     int prevX = characterRect.x;
     int prevY = characterRect.y;
     initializeTilemap(&tilemapDynamic);
+    loadCharacterTextures(renderer);
 
     int quit = 0;
 
@@ -49,17 +78,12 @@ void runGame(SDL_Renderer *renderer)
             }
         }
 
-        //                                                 _________________________________
-        //_______________________________________________/  Mover jugador
-
-        moveCharacter(&characterRect, &prevX, &prevY, tilemap);
-
         //                                                  ___________________________________
         //________________________________________________/  obtener coordenadas del personaje
 
         int characterTileX, characterTileY;
         getCharacterTileCoordinates(characterRect, &characterTileX, &characterTileY);
-        // printf("Personaje en el tile (%d, %d)\n", characterTileX, characterTileY);
+        printf("Personaje en el tile (%d, %d)\n", characterTileX, characterTileY);
 
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
@@ -81,10 +105,10 @@ void runGame(SDL_Renderer *renderer)
             }
         }
 
-        // Dibujar el personaje
-        SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-        SDL_RenderFillRect(renderer, &characterRect);
+        //                                                 _________________________________
+        //_______________________________________________/  Mover jugador
 
+        moveCharacter(&characterRect, &prevX, &prevY, tilemap, renderer);
         // Dibujar el tilemap dinámico
 
         //                                                   __________________________________________________________
@@ -95,14 +119,17 @@ void runGame(SDL_Renderer *renderer)
         setDynamicTile(&tilemapDynamic, renderer, str3);
         setDynamicTile(&tilemapDynamic, renderer, str4);
 
-        //                                                    _______
-        //__________________________________________________/  Score
-
+        //                                                    ___________________
+        //__________________________________________________/  Dibujar Cocodrilos
+        // addCocodrile(renderer, cocoData, tilemap);
         // actualizar ventana
         SDL_RenderPresent(renderer);
     }
 
     // Liberar texturas
+    destroyCharacterTextures();
+    destroyFruitsTextures();
+
     for (int i = 0; i < NUM_TILE_TYPES; i++)
     {
         SDL_DestroyTexture(tileTextures[i]);

@@ -1,9 +1,37 @@
 #include "constants.h"
+#include <unistd.h>
 
-void moveCharacter(SDL_Rect *characterRect, int *prevX, int *prevY, int map[MAP_WIDTH][MAP_HEIGHT])
+SDL_Texture *characterTexture[NUM_TILE_TYPES];
+int movementState = 0;
+
+void loadCharacterTextures(SDL_Renderer *renderer)
+{
+    // derecha
+    characterTexture[0] = LoadTexture(renderer, "./Assets/sprites/donkey_jr/05-r001-static.png");
+    characterTexture[1] = LoadTexture(renderer, "./Assets/sprites/donkey_jr/06-r002.png");
+    characterTexture[2] = LoadTexture(renderer, "./Assets/sprites/donkey_jr/04-r000.png");
+
+    // izquierda
+    characterTexture[3] = LoadTexture(renderer, "./Assets/sprites/donkey_jr/53-l002.png");
+    characterTexture[4] = LoadTexture(renderer, "./Assets/sprites/donkey_jr/54-l001-static.png");
+    characterTexture[5] = LoadTexture(renderer, "./Assets/sprites/donkey_jr/55-l000.png");
+
+    // subir/bajar
+    characterTexture[6] = LoadTexture(renderer, "./Assets/sprites/donkey_jr/10-r006.png");
+    characterTexture[7] = LoadTexture(renderer, "./Assets/sprites/donkey_jr/09-r005.png");
+}
+
+void destroyCharacterTextures()
+{
+    for (int i = 0; i < NUM_TILE_TYPES; i++)
+    {
+        SDL_DestroyTexture(characterTexture[i]);
+    }
+}
+
+void moveCharacter(SDL_Rect *characterRect, int *prevX, int *prevY, int map[MAP_WIDTH][MAP_HEIGHT], SDL_Renderer *renderer)
 {
     // Guardar las coordenadas actuales del personaje
-
     *prevX = characterRect->x;
     *prevY = characterRect->y;
 
@@ -14,19 +42,22 @@ void moveCharacter(SDL_Rect *characterRect, int *prevX, int *prevY, int map[MAP_
 
     if (keystate[SDL_SCANCODE_UP] && characterRect->y > 0)
     {
-        // printf("tecla up: %d\n", characterRect->y);
-        if (map[characterRect->x / TILE_SIZE][(characterRect->y - TILE_SIZE) / TILE_SIZE] == 0)
+
+        if (map[characterRect->x / TILE_SIZE][(characterRect->y - TILE_SIZE) / TILE_SIZE] == 7)
         {
+
             characterRect->y -= TILE_SIZE;
+            movementState = 6;
         }
     }
     else if (keystate[SDL_SCANCODE_DOWN] && characterRect->y < (MAP_HEIGHT - 1) * TILE_SIZE)
     {
-        // printf("tecla down: %d\n", characterRect->y);
-        if (map[characterRect->x / TILE_SIZE][(characterRect->y + TILE_SIZE) / TILE_SIZE] == 0)
+
+        if (map[characterRect->x / TILE_SIZE][(characterRect->y + TILE_SIZE) / TILE_SIZE] == 7)
         {
 
             characterRect->y += TILE_SIZE;
+            movementState = 7;
         }
     }
     else if (keystate[SDL_SCANCODE_LEFT] && characterRect->x > 0)
@@ -34,6 +65,7 @@ void moveCharacter(SDL_Rect *characterRect, int *prevX, int *prevY, int map[MAP_
         if (map[(characterRect->x - TILE_SIZE) / TILE_SIZE][characterRect->y / TILE_SIZE] == 0)
         {
             characterRect->x -= TILE_SIZE;
+            movementState = 5;
         }
     }
     else if (keystate[SDL_SCANCODE_RIGHT] && characterRect->x < (MAP_WIDTH - 1) * TILE_SIZE)
@@ -41,12 +73,19 @@ void moveCharacter(SDL_Rect *characterRect, int *prevX, int *prevY, int map[MAP_
         if (map[(characterRect->x + TILE_SIZE) / TILE_SIZE][characterRect->y / TILE_SIZE] == 0)
         {
             characterRect->x += TILE_SIZE;
+            movementState = 2;
         }
     }
+
+    if (characterRect->x != prevX || characterRect->y != prevY)
+    {
+        SDL_Delay(100); // Pausar durante 100 milisegundos
+    }
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+    SDL_RenderCopy(renderer, characterTexture[movementState], NULL, characterRect);
 }
 
-// obtener posicion del jugador en el tilemap
-
+// obtener posicion del jugador en el tile
 int getTileCoordinates(int position)
 {
     return position / TILE_SIZE;

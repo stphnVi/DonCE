@@ -1,8 +1,32 @@
+// SCREEN - tilemaps
+#ifndef SCREEN_H
+#define SCREEN_H
+
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#include <SDL2/SDL_main.h>
 #include <string.h>
 #include <stdio.h>
+
+#define TILE_SIZE 43
+#define MAP_WIDTH 22
+#define MAP_HEIGHT 16
+#define NUM_TILE_TYPES 45
+
+void runGame(SDL_Renderer *renderer);
+
+#endif // SCREEN_H
+
+// USER
+#ifndef USER_H
+#define USER_H
+
+void moveCharacter(SDL_Rect *characterRect, int *prevX, int *prevY, int map[MAP_WIDTH][MAP_HEIGHT], SDL_Renderer *renderer);
+int getTileCoordinates(int position);
+void getCharacterTileCoordinates(SDL_Rect characterRect, int *tileX, int *tileY);
+void loadCharacterTextures(SDL_Renderer *renderer);
+void destroyCharacterTextures();
+
+#endif // USER_H
 
 // LOAD_TEXTURE
 #ifndef LOAD_TEXTURE_H
@@ -10,52 +34,9 @@
 
 SDL_Texture *LoadTexture(SDL_Renderer *renderer, const char *imagePath);
 
-// SCREEN - tilemaps
-#ifndef SCREEN_H
-#define SCREEN_H
-#define TILE_SIZE 43
-#define MAP_WIDTH 22
-#define MAP_HEIGHT 16
-#define NUM_TILE_TYPES 30
-
-void runGame(SDL_Renderer *renderer);
-
-int tilemap[MAP_WIDTH][MAP_HEIGHT] = {
-    {0, 0, 0, 11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 2},
-    {0, 0, 0, 11, 7, 8, 7, 7, 7, 7, 7, 8, 7, 0, 4, 2},
-    {0, 0, 13, 11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 2},
-    {0, 0, 0, 11, 8, 7, 8, 7, 8, 8, 7, 7, 7, 0, 4, 2},
-    {0, 0, 0, 11, 0, 0, 0, 11, 0, 0, 11, 0, 0, 0, 4, 2},
-    {0, 0, 14, 11, 0, 0, 0, 11, 7, 8, 11, 0, 0, 0, 5, 2},
-    {0, 0, 0, 11, 0, 0, 0, 0, 0, 0, 11, 0, 0, 0, 0, 2},
-    {0, 0, 0, 11, 0, 0, 0, 0, 0, 0, 11, 0, 0, 0, 0, 2},
-    {0, 0, 0, 11, 7, 7, 8, 7, 7, 8, 7, 0, 3, 0, 0, 2},
-    {0, 0, 0, 11, 11, 0, 0, 0, 0, 0, 0, 0, 4, 6, 6, 2},
-    {0, 0, 0, 0, 11, 7, 7, 8, 7, 7, 8, 0, 4, 6, 6, 2},
-    {0, 0, 0, 0, 11, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 2},
-    {0, 0, 0, 0, 11, 7, 7, 7, 7, 7, 8, 7, 0, 3, 0, 2},
-    {0, 0, 0, 0, 11, 0, 0, 0, 0, 0, 0, 0, 0, 4, 6, 2},
-    {0, 0, 0, 0, 11, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 2},
-    {0, 0, 0, 0, 11, 7, 7, 7, 7, 7, 8, 0, 3, 0, 0, 2},
-    {0, 0, 0, 8, 7, 7, 7, 8, 11, 0, 0, 0, 4, 6, 6, 2},
-    {0, 0, 0, 0, 0, 0, 0, 0, 11, 0, 0, 0, 5, 0, 0, 2},
-    {0, 0, 0, 0, 0, 0, 0, 0, 11, 8, 0, 3, 0, 0, 0, 2},
-    {0, 0, 0, 8, 8, 7, 8, 7, 11, 0, 0, 4, 6, 6, 6, 2},
-    {0, 0, 0, 0, 0, 0, 0, 0, 11, 0, 0, 4, 6, 6, 6, 2},
-    {0, 0, 0, 0, 0, 0, 0, 0, 11, 0, 0, 5, 0, 0, 0, 2}
-
-};
-
-// USER
-#ifndef USER_H
-#define USER_H
-
-void moveCharacter(SDL_Rect *characterRect, int *prevX, int *prevY, int map[MAP_WIDTH][MAP_HEIGHT]);
-int getTileCoordinates(int position);
-void getCharacterTileCoordinates(SDL_Rect characterRect, int *tileX, int *tileY);
+#endif // LOAD_TEXTURE_H
 
 // FRUITS
-
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 
@@ -65,9 +46,12 @@ typedef struct
     int tiles[MAP_WIDTH][MAP_HEIGHT];
 } TilemapDynamic;
 
-void initializeTilemap(TilemapDynamic *tilemap);
-void setDynamicTile(TilemapDynamic *tilemap, SDL_Renderer *renderer, char *fruit);
+void initializeTilemap(TilemapDynamic *tilemapDynamic);
+void destroyFruitsTextures();
+void setDynamicTile(TilemapDynamic *tilemapDynamic, SDL_Renderer *renderer, char *fruit);
 void printTilemap(TilemapDynamic *tilemapDynamic);
+
+#endif // CONSTANTS_H
 
 // SCORE
 #ifndef SCORE_HS
@@ -75,12 +59,13 @@ void printTilemap(TilemapDynamic *tilemapDynamic);
 
 void setScore(SDL_Renderer *renderer, char *fruit);
 
-#endif
+#endif // SCORE_H
 
-#endif // CONSTANTS_H
+// COCODRILES
+#ifndef COCODRILES_H
+#define COCODRILES_H
 
-#endif // USER_H
+void addCocodrile(SDL_Renderer *renderer, const char *cocoData, int map[MAP_WIDTH][MAP_HEIGHT]);
+void parseCoordinates(const char *data, int **coordinates, int *numCoordinates);
 
-#endif // SCREEN_H
-
-#endif // LOAD_TEXTURE_H
+#endif // COCODRILES_H

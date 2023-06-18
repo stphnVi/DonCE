@@ -1,6 +1,6 @@
 #include "constants.h"
 
-SDL_Texture *tileTextures[NUM_TILE_TYPES];
+SDL_Texture *tileTexturesFruits[NUM_TILE_TYPES];
 
 void initializeTilemap(TilemapDynamic *tilemapDynamic)
 {
@@ -43,9 +43,9 @@ void setDynamicTile(TilemapDynamic *tilemapDynamic, SDL_Renderer *renderer, char
         printf("Error al leer la acción.\n");
     }
 
-    tileTextures[0] = LoadTexture(renderer, "./Assets/sprites/static/00-apple.png");
-    tileTextures[1] = LoadTexture(renderer, "./Assets/sprites/static/01-banana.png");
-    tileTextures[2] = LoadTexture(renderer, "./Assets/sprites/static/02-granade.png");
+    tileTexturesFruits[0] = LoadTexture(renderer, "./Assets/sprites/static/00-apple.png");
+    tileTexturesFruits[1] = LoadTexture(renderer, "./Assets/sprites/static/01-banana.png");
+    tileTexturesFruits[2] = LoadTexture(renderer, "./Assets/sprites/static/02-granade.png");
 
     if (x >= 0 && x < MAP_WIDTH && y >= 0 && y < MAP_HEIGHT)
     {
@@ -59,7 +59,7 @@ void setDynamicTile(TilemapDynamic *tilemapDynamic, SDL_Renderer *renderer, char
         }
     }
 
-    SDL_Texture *texture = tileTextures[tileID];
+    SDL_Texture *texture = tileTexturesFruits[tileID];
     if (tileID >= 0 && texture != NULL)
     {
         SDL_Rect destRect;
@@ -69,5 +69,17 @@ void setDynamicTile(TilemapDynamic *tilemapDynamic, SDL_Renderer *renderer, char
         destRect.h = TILE_SIZE;
 
         SDL_RenderCopy(renderer, texture, NULL, &destRect);
+    }
+}
+
+void destroyFruitsTextures()
+{
+    for (int i = 0; i < NUM_TILE_TYPES; i++)
+    {
+        if (tileTexturesFruits[i] != NULL)
+        {
+            SDL_DestroyTexture(tileTexturesFruits[i]);
+            tileTexturesFruits[i] = NULL;
+        }
     }
 }
