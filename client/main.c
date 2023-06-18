@@ -4,6 +4,13 @@
 
 int main(int argc, char *argv[])
 {
+    ///////Networking///////
+    char *data = "Hola\n";
+    initSockets(1); // incializar conexion con servidor 1
+    writeToServer(data);
+    readFromServer();
+    ///////////////////////
+
     SDL_Init(SDL_INIT_VIDEO);
     SDL_Window *window = SDL_CreateWindow("SDL2 Window", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 946, 688, SDL_WINDOW_SHOWN);
     if (window == NULL)

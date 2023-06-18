@@ -1,4 +1,5 @@
 #include "constants.h"
+#include "src/texture.h"
 #include <unistd.h>
 
 SDL_Texture *characterTexture[NUM_TILE_TYPES];
@@ -34,6 +35,9 @@ void moveCharacter(SDL_Rect *characterRect, int *prevX, int *prevY, int map[MAP_
     // Guardar las coordenadas actuales del personaje
     *prevX = characterRect->x;
     *prevY = characterRect->y;
+    int texture = (map[characterRect->x / TILE_SIZE][(characterRect->y - TILE_SIZE) / TILE_SIZE]);
+    int psibleVine[5] = {1, 3, 5, 8, 10, 12, 15, 16, 19};
+    int length = sizeof(psibleVine) / sizeof(psibleVine[0]);
 
     // Obtener la tecla presionada
     const Uint8 *keystate = SDL_GetKeyboardState(NULL);
@@ -42,38 +46,58 @@ void moveCharacter(SDL_Rect *characterRect, int *prevX, int *prevY, int map[MAP_
 
     if (keystate[SDL_SCANCODE_UP] && characterRect->y > 0)
     {
-
-        if (map[characterRect->x / TILE_SIZE][(characterRect->y - TILE_SIZE) / TILE_SIZE] == 7)
+        if (inVine = 1 && (texture == 7 || texture == 8))
         {
-
             characterRect->y -= TILE_SIZE;
             movementState = 6;
         }
     }
+
     else if (keystate[SDL_SCANCODE_DOWN] && characterRect->y < (MAP_HEIGHT - 1) * TILE_SIZE)
     {
-
-        if (map[characterRect->x / TILE_SIZE][(characterRect->y + TILE_SIZE) / TILE_SIZE] == 7)
+        printf("entra %d %d", inVine, texture);
+        if (inVine = 1 && (texture == 7 || texture == 8))
         {
-
             characterRect->y += TILE_SIZE;
             movementState = 7;
         }
     }
     else if (keystate[SDL_SCANCODE_LEFT] && characterRect->x > 0)
     {
-        if (map[(characterRect->x - TILE_SIZE) / TILE_SIZE][characterRect->y / TILE_SIZE] == 0)
+        if (texture == 0)
         {
             characterRect->x -= TILE_SIZE;
             movementState = 5;
         }
+
+        if (inVine = 1)
+        {
+            // fisicas
+        }
     }
     else if (keystate[SDL_SCANCODE_RIGHT] && characterRect->x < (MAP_WIDTH - 1) * TILE_SIZE)
     {
-        if (map[(characterRect->x + TILE_SIZE) / TILE_SIZE][characterRect->y / TILE_SIZE] == 0)
+        if (texture == 0)
         {
             characterRect->x += TILE_SIZE;
             movementState = 2;
+        }
+        if (inVine = 1)
+        {
+            // fisicas
+        }
+    }
+    else if (keystate[SDL_SCANCODE_SPACE] && characterRect->x < (MAP_WIDTH - 1) * TILE_SIZE)
+    {
+        if (texture == 0)
+        {
+            characterRect->y -= TILE_SIZE;
+            movementState = 6;
+
+            if (texture == 7 || texture == 8)
+            {
+                inVine = 1;
+            }
         }
     }
 
@@ -85,6 +109,9 @@ void moveCharacter(SDL_Rect *characterRect, int *prevX, int *prevY, int map[MAP_
     SDL_RenderCopy(renderer, characterTexture[movementState], NULL, characterRect);
 }
 
+void gravityCharacter()
+{
+}
 // obtener posicion del jugador en el tile
 int getTileCoordinates(int position)
 {

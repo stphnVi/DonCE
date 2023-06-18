@@ -59,8 +59,8 @@ void runGame(SDL_Renderer *renderer)
     SDL_Rect characterRect;
     characterRect.x = 43; // Posición inicial del personaje
     characterRect.y = 559;
-    characterRect.w = 43; // Ancho del personaje
-    characterRect.h = 43;
+    characterRect.w = 39; // Ancho del personaje
+    characterRect.h = 39;
     int prevX = characterRect.x;
     int prevY = characterRect.y;
     initializeTilemap(&tilemapDynamic);
@@ -78,8 +78,8 @@ void runGame(SDL_Renderer *renderer)
             }
         }
 
-        //                                                  ___________________________________
-        //________________________________________________/  obtener coordenadas del personaje
+        //                                   ___________________________________
+        //__________________________________/  obtener coordenadas del personaje
 
         int characterTileX, characterTileY;
         getCharacterTileCoordinates(characterRect, &characterTileX, &characterTileY);
