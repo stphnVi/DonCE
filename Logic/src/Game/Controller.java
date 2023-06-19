@@ -25,7 +25,7 @@ public class Controller{
         Fruta fruta = new Fruta(liana, altura, puntos, ID);
         donce.agregarFruta(fruta);
         System.out.println(donce.frutas);
-        send = "crear:" + fruta.ID + "(" + Integer.toString(fruta.liana) + ", " + Integer.toString(fruta.altura) + ")";
+        send = "crear:" + ID + "(" + Integer.toString(fruta.liana) + ", " + Integer.toString(fruta.altura) + ")";
     }
 
     public void crearCocodrilo(String tipo, Integer liana, Integer plataforma){
@@ -33,11 +33,11 @@ public class Controller{
         if(tipo.equals("Azul")){
             CocodriloAzul cocodrilo = new CocodriloAzul(plataforma, velocidad);
             donce.agregarCocodrilo(cocodrilo);
-            send = "crear:azul:" + Integer.toString(plataforma);
+            send = "crear:azul:" + Integer.toString(plataforma) + ":" + Integer.toString(velocidad);
         } else if(tipo.equals("Rojo")){
             CocodriloRojo cocodrilo = new CocodriloRojo(liana, velocidad);
             donce.agregarCocodrilo(cocodrilo);
-            send = "crear:rojo:" + Integer.toString(liana);
+            send = "crear:rojo:" + Integer.toString(liana)+ ":" + Integer.toString(velocidad);
         }
 
         System.out.println(donce.cocodrilos);

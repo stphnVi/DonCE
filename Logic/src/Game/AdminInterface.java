@@ -89,9 +89,19 @@ public class AdminInterface {
                 Integer liana = Integer.parseInt((String) fruitPlaceSelector.getSelectedItem());
                 Integer height =Integer.parseInt((String) heightSelector.getSelectedItem());
                 Integer score = Integer.parseInt(scoreField.getText());
+                String ID = "";
 
-                //Acciones correspondientes despues de crear
-                controller.crearFruta(liana, height, score, fruit);
+                if(fruit.equals("Banano")){
+                    ID = "1";
+                }else if(fruit.equals("Manzana")){
+                    ID = "0";
+                }else if(fruit.equals("Granada")){
+                    ID = "2";
+                }
+
+                //Crear la fruta
+                controller.crearFruta(liana, height, score, ID);
+
                 System.out.println("Se ha generado una " + fruit
                         + " en la  " + liana
                         + " a la altura " + height
