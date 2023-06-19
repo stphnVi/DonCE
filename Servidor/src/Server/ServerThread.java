@@ -36,7 +36,7 @@ public class ServerThread extends Thread{
             do{
                 text=reader.readLine();
                 System.out.printf("The clients says: " + text+ "\n");
-                writer.println("Hola desde el Server.\n");
+                writer.println("crear:1(1, 3)");
                 System.out.println("Message sent to client successfully.\n");
 
             } while(!text.equals("bye") && text != null);

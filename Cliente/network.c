@@ -60,6 +60,31 @@ void initSockets(int serverID){
     printf("Connection to server successful.\n");
 }
 
+
+void writeToServer(char* data){
+
+    if((send(clientSocket,data, (int)strlen(data),0))==SOCKET_ERROR){
+        printf("Attempt to send data to server failed. Error: %d\n", WSAGetLastError());
+    }
+    printf("Data sent to server: %s\n", data);
+}
+
+
+void readFromServer(){
+    int result;
+    result= recv(clientSocket, recvBuffer, MAX_BUFF_LEN,0);
+
+    if(result > 0){
+        printf("El server dice: %s", recvBuffer);
+    }
+    else if(result==0){
+        printf("Connection closed.\n");
+    }
+    else{
+        printf("Data reading failed. Error: %d\n", WSAGetLastError());
+    }
+}
+
 //void writeToServer(int key){//Descomentar para la entrada de teclas
 //    int result;
 //    const char* normalKey= "Key\n";//cualquier otra tecla
@@ -90,28 +115,3 @@ void initSockets(int serverID){
 //        printf("Attempt to send data to server failed. Error: %d\n", WSAGetLastError());
 //    }
 //}
-
-void writeToServer(char* data){
-
-    if((send(clientSocket,data, (int)strlen(data),0))==SOCKET_ERROR){
-        printf("Attempt to send data to server failed. Error: %d\n", WSAGetLastError());
-    }
-    printf("Data sent to server: %s\n", data);
-}
-
-
-void readFromServer(){
-    int result;
-    result= recv(clientSocket, recvBuffer, MAX_BUFF_LEN,0);
-
-    if(result > 0){
-        printf("El server dice: %s", recvBuffer);
-    }
-    else if(result==0){
-        printf("Connection closed.\n");
-    }
-    else{
-        printf("Data reading failed. Error: %d\n", WSAGetLastError());
-    }
-}
-

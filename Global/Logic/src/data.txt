@@ -1,0 +1,3 @@
+posJugador: [1, 2],
+posFrutas: [[1, 2],[1, 5],[2, 3]],
+posCocodrilos: [[3, 4],[5, 6]]
