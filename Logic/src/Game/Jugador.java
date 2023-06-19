@@ -29,7 +29,6 @@ public class Jugador extends DonCE{
         this.vidas = vidas - 1;
         this.puntos = 0;
         //Reiniciar nivel
-        send = "die";
     }
 
 }

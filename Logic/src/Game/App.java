@@ -20,7 +20,7 @@ public class App {
 
         serverA.start();
 
-        c1.readClient("posJugador:[0,0]-posCocodrilos:[[0,0],[1,1]]");
-        c1.controll();
+        //c1.readClient("posJugador:[0,0]-posCocodrilos:[[0,0],[1,1]]");
+        //c1.controll();
     }
 }
