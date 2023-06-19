@@ -8,7 +8,8 @@ void runGame(SDL_Renderer *renderer)
     TilemapDynamic tilemapDynamic;
 
     char str1[] = "crear:1(1, 3)";
-    const char *cocoData = "crear:azul:2:1000";
+    const char *cocoData = "crear:rojo:2:1000";
+    const char *cocoDataB = "crear:azul:4:1000";
 
     // Cargar texturas para cada tipo de tile
     tileTextures[0] = LoadTexture(renderer, "./Assets/sprites/static/black.png");
@@ -54,15 +55,28 @@ void runGame(SDL_Renderer *renderer)
     // manejo de eventos
     SDL_Event event;
     SDL_Rect characterRect;
+    SDL_Rect kremlimRect;
+    SDL_Rect kremlimRectB;
 
     characterRect.x = 43; // Posición inicial del personaje
     characterRect.y = 559;
     characterRect.w = 43; // Ancho del personaje
     characterRect.h = 43;
+
+    kremlimRect.x = 43; // Ancho del kremlim
+    kremlimRect.y = 559;
+    kremlimRect.w = 43; // Ancho del kremlim
+    kremlimRect.h = 43;
+
+    kremlimRectB.x = 43; // Ancho del kremlim
+    kremlimRectB.y = 86;
+    kremlimRectB.w = 43; // Ancho del kremlim
+    kremlimRectB.h = 43;
     int prevX = characterRect.x;
     int prevY = characterRect.y;
     initializeTilemap(&tilemapDynamic);
     loadCharacterTextures(renderer);
+    loadKremlimTexturesK(renderer);
 
     int quit = 0;
 
@@ -111,7 +125,8 @@ void runGame(SDL_Renderer *renderer)
         // Dibujar el tilemap dinámico
         //                                                    ___________________
         //__________________________________________________/  Dibujar Cocodrilos
-        addkremlim(renderer, cocoData, tilemap);
+        addkremlim(renderer, cocoData, tilemap, &kremlimRect);
+        addkremlim(renderer, cocoDataB, tilemap, &kremlimRectB);
         // actualizar ventana
         //                                                   __________________________________________________________
         //_________________________________________________/  Dibujar frutas  ej:(pos: 7:9 - tile: 1 - action: 1 o 0)

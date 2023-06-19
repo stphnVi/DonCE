@@ -7,7 +7,8 @@ String a esperar por el server 'crear:azul:1:1000'
 -> valocidad: 1000
 
 */
-SDL_Texture *kremlimTextures[NUM_TILE_TYPES];
+SDL_Texture *kremlimTexture[NUM_TILE_TYPES];
+int movementStatek = 0;
 
 typedef struct
 {
@@ -28,17 +29,31 @@ void destroykremlimTexturess()
 {
     for (int i = 0; i < NUM_TILE_TYPES; i++)
     {
-        SDL_DestroyTexture(kremlimTextures[i]);
+        SDL_DestroyTexture(kremlimTexture[i]);
     }
 }
 
-void addkremlim(SDL_Renderer *renderer, const char *kremlimData, int map[MAP_WIDTH][MAP_HEIGHT])
+void loadKremlimTexturesK(SDL_Renderer *renderer)
 {
+    // rojo client\Assets\sprites\blue_crocodile\27-tile003.png
+    kremlimTexture[0] = LoadTexture(renderer, "./Assets/sprites/red_crocodile/33-tile003.png");
+    kremlimTexture[1] = LoadTexture(renderer, "./Assets/sprites/blue_crocodile/27-tile003.png");
+}
 
+void destroykremlimTexturesK()
+{
+    for (int i = 0; i < NUM_TILE_TYPES; i++)
+    {
+        SDL_DestroyTexture(kremlimTexture[i]);
+    }
+}
+
+void addkremlim(SDL_Renderer *renderer, char *kremlimData, int map[MAP_WIDTH][MAP_HEIGHT], SDL_Rect *kremlimRect)
+{
+    // Guardar las coordenadas actuales del personaje
     char str1[] = "rojo";
     char *token;
     char *savePtr;
-    const char *inputString = "crear:azul:1:1000";
     char color[20];
     int inicio = 0;
     int velocidad = 0;
@@ -72,44 +87,63 @@ void addkremlim(SDL_Renderer *renderer, const char *kremlimData, int map[MAP_WID
             }
         }
     }
-    int result = strcmp(str1, color);
-    // rojo
-    if (result == 1)
 
+    printf("\nLiana parseada %d", inicio * TILE_SIZE);
+    printf("\nVelocidad kremil %d", velocidad);
+    printf("\n Y %d", kremlimRect->y);
+
+    int result1 = strcmp(color, str1);
+    if (result1 == 0)
     {
-        printf("\nDibujar kremil %d", inicio);
-        kremlimRed(renderer, transformLianaK(inicio), velocidad, map);
+
+        kremlimRed(renderer, inicio, velocidad, map, kremlimRect);
     }
+    else
+    {
+        kremlimBlue(renderer, inicio, velocidad, map, kremlimRect);
+    }
+
+    // Obtener la tecla presionada
 }
 
-void kremlimRed(SDL_Renderer *renderer, int inicio, int velocidad, int map[MAP_WIDTH][MAP_HEIGHT])
+void kremlimBlue(SDL_Renderer *renderer, int inicio, int velocidad, int map[MAP_WIDTH][MAP_HEIGHT], SDL_Rect *kremlimRect)
 {
-    // Bucle para realizar el movimiento del cocodrilo
 
-    kremlimTextures[0] = LoadTexture(renderer, "./Assets/sprites/red_crocodile/35-tile005.png");
-    kremlimTextures[1] = LoadTexture(renderer, "./Assets/sprites/static/00-apple.png");
+    kremlimRect->x = transformLianaK(inicio) * TILE_SIZE;
+    kremlimRect->y += TILE_SIZE;
+    movementStatek = 1;
 
-    // red kremlim down
-    kremlimTextures[2] = LoadTexture(renderer, "./Assets/sprites/red_crocodile/35-tile005.png");
-    kremlimTextures[3] = LoadTexture(renderer, "./Assets/sprites/red_crocodile/56-tile004.png");
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+    SDL_RenderCopy(renderer, kremlimTexture[movementStatek], NULL, kremlimRect);
+    SDL_Delay(100);
+}
 
-    SDL_Texture *texture = kremlimTextures[0];
-    printf("\nDibujar %d", inicio);
+void kremlimRed(SDL_Renderer *renderer, int inicio, int velocidad, int map[MAP_WIDTH][MAP_HEIGHT], SDL_Rect *kremlimRect)
+{
+    // Mover el personaje tile por tile en función de la tecla presionada
+    kremlimRect->x = transformLianaK(inicio) * TILE_SIZE;
 
-    if (texture != NULL)
+    if (map[(kremlimRect->x) / 43][(kremlimRect->y) / 43] == 7)
     {
-        printf("\nver nulo %d", inicio);
-        SDL_Rect srcRect;  // Rectángulo de origen (si es necesario)
-        SDL_Rect destRect; // Rectángulo de destino
-
-        // Establecer las dimensiones y posición del rectángulo de destino
-        destRect.x = inicio * TILE_SIZE;
-        destRect.y = 5 * TILE_SIZE;
-        destRect.w = TILE_SIZE;
-        destRect.h = TILE_SIZE;
-
-        SDL_RenderCopy(renderer, texture, &srcRect, &destRect);
+        printf("\npos baja %d", kremlimRect->y);
+        printf("\npos baja map %d", map[transformLianaK(inicio)][(kremlimRect->y)]);
+        kremlimRect->y += TILE_SIZE;
+        movementStatek = 0;
     }
+    else if (map[(kremlimRect->x) / 43][(kremlimRect->y) / 43] == 0)
+    {
+        printf("\npos sube %d", kremlimRect->y);
+        printf("\npos baja map %d", map[transformLianaK(inicio)][(kremlimRect->y)]);
+        kremlimRect->y -= TILE_SIZE;
+        movementStatek = 0;
+    }
+
+    // Obtener la textura correspondiente al movimiento del cocodrilo
+    // printf("\n Entra");
+
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+    SDL_RenderCopy(renderer, kremlimTexture[movementStatek], NULL, kremlimRect);
+    SDL_Delay(100);
 }
 
 int transformLianaK(int liana)
@@ -129,33 +163,30 @@ int transformLianaK(int liana)
 }
 
 /*
+  kremlimRect->x = transformLianaK(inicio) * TILE_SIZE;
 
-for (int i = 0; i < MAP_HEIGHT; i++)
-{
+    if (map[transformLianaK(inicio)][(kremlimRect->y) - 43] == 11)
+    {
+        kremlimRect->y += TILE_SIZE;
+        movementStatek = 0;
+    }
+    if (map[transformLianaK(inicio)][(kremlimRect->y) - 43] == 0)
+    {
+        kremlimRect->y -= TILE_SIZE;
+        movementStatek = 0;
+    }
 
-// Verificar si el tile es 7 o 8 para realizar la acción
-// printf("\n textura %d ", map[inicio][i]);
 
-
-if (map[inicio][i] == 7 || map[inicio][i] == 8)
-{
-// Obtener la textura correspondiente al movimiento del cocodrilo
-// printf("\n Entra");
-SDL_Texture *texture = kremlimTextures[0];
-
-if (texture != NULL)
-{
-    SDL_Rect destRect;
-    destRect.x = inicio * TILE_SIZE;
-    destRect.y = i * TILE_SIZE;
-    destRect.w = TILE_SIZE;
-    destRect.h = TILE_SIZE;
-
-    SDL_RenderCopy(renderer, texture, NULL, &destRect);
-}
-}
+     // UP
+        kremlimRect->y -= TILE_SIZE;
+        movementStatek = 6;
+        // DOWN
+        kremlimRect->y += TILE_SIZE;
+        movementStatek = 7;
+        // IZQ
+        kremlimRect->x -= TILE_SIZE;
+        movementStatek = 5;
+        // DER
+        // kremlimRect->x += TILE_SIZE;
 
 */
-
-// Delay para controlar la velocidad de movimiento
-// SDL_Delay(1000 / velocidad); // Ajusta el valor según la velocidad deseada

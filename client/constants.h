@@ -67,9 +67,10 @@ void setScore(SDL_Renderer *renderer, char *fruit);
 #ifndef KREMLIM_H
 #define KREMLIM_H
 
-void loadKremlimTextures(SDL_Renderer *renderer);
+void loadKremlimTexturesK(SDL_Renderer *renderer);
 void destroykremlimTexturess();
-void addkremlim(SDL_Renderer *renderer, const char *kremlimData, int map[MAP_WIDTH][MAP_HEIGHT]);
-void kremlimRed(SDL_Renderer *renderer, int inicio, int velocidad, int map[MAP_WIDTH][MAP_HEIGHT]);
+void addkremlim(SDL_Renderer *renderer, char *kremlimData, int map[MAP_WIDTH][MAP_HEIGHT], SDL_Rect *kremlimRect);
+void kremlimRed(SDL_Renderer *renderer, int inicio, int velocidad, int map[MAP_WIDTH][MAP_HEIGHT], SDL_Rect *kremlimRect);
+void kremlimBlue(SDL_Renderer *renderer, int inicio, int velocidad, int map[MAP_WIDTH][MAP_HEIGHT], SDL_Rect *kremlimRect);
 int transformLianaK(int liana);
 #endif // KREMLIM_H
