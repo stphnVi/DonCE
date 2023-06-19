@@ -27,6 +27,7 @@ public class Fruta extends DonCE{
     public void eliminar(){
         
         send = "eliminar:" + this.ID + "(" + Integer.toString(liana) + ", " + Integer.toString(altura) + ")";
+        
     }
     
 }

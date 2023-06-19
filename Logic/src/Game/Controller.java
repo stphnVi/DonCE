@@ -18,7 +18,7 @@ public class Controller{
     public Controller(){
         this.donce = donce;
         this.DKjr = DKjr;
-        this.send = donce.send;
+        this.send = send;
     }
 
     public void crearFruta(Integer liana, Integer altura, Integer puntos, String ID){
@@ -99,6 +99,7 @@ public class Controller{
                 DKjr.eatFruit(donce.frutas.get(i)); //se elimina dentro de eatFruit
                 break;
             }
+            
         }
         for(int i = 0; i < donce.posCocodrilos.size()-1; i++){
             if(donce.posJugador.equals(donce.posCocodrilos.get(i))){
@@ -106,10 +107,14 @@ public class Controller{
                 //reiniciar nivel
                 break;
             }
+            System.out.println(donce.send);
         }
 
         if(donce.posJugador.equals(donce.posDK)){
             DKjr.win();
         }
+        System.out.println(send);
+        System.out.println(donce.send);
+        this.send = donce.send;
     }
 }
