@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DonCE {
-
+    
     public List<Fruta> frutas = new ArrayList<>();
     public List<DonCE> cocodrilos = new ArrayList<>();
     public List<Jugador> jugadores = new ArrayList<>();
@@ -22,11 +22,19 @@ public class DonCE {
     public DonCE(){
     }
 
+    /**
+     * Agrega un nuevo cocodrilo a la lista de todos los cocodrilos
+     * @param cocodrilo Nuevo cocodrilo
+     */
     public void agregarCocodrilo(DonCE cocodrilo){
         cocodrilos.add(cocodrilo);
 
     }
 
+    /**
+     * Agregar una nueva fruta a la lista de todas las frutas
+     * @param fruta Nueva fruta
+     */
     public void agregarFruta(Fruta fruta){
         frutas.add(fruta);
         List<Integer> posFruta = new ArrayList<>();
@@ -35,6 +43,10 @@ public class DonCE {
         posFrutas.add(posFruta);
     }
 
+    /**
+     * Elimina una fruta de la lista de todas las frutas
+     * @param fruta Fruta a eliminar
+     */
     public void eliminarFruta(Fruta fruta){
         frutas.remove(fruta);
         posFrutas.remove(frutas);

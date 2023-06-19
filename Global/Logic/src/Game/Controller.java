@@ -4,23 +4,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
+/**
+ * Clase Controller para determinar la estrategia que sigue el juego
+ */
 public class Controller{
 
 //___________________________Incializacion de variables________________________________________
-    //Revisar polimorfismo
+    
     DonCE donce = new DonCE();
     Jugador DKjr = new Jugador(3, 0, 1);
     public String send;
 
 
-
+    
     public Controller(){
         this.donce = donce;
         this.DKjr = DKjr;
     }
 
-
+    /**
+     * Metodo para crear una fruta desde la interfaz del usuario administrador
+     * @param liana Numero de la liana donde estara a fruta
+     * @param altura Altura dentro de la liana donde estara la fruta
+     * @param puntos Puntos asignados a la fruta
+     * @param ID Identificador de la fruta (manzana, banano o granada)
+     */
     public void crearFruta(Integer liana, Integer altura, Integer puntos, String ID){
         Fruta fruta = new Fruta(liana, altura, puntos, ID);
         donce.agregarFruta(fruta);
@@ -28,8 +36,13 @@ public class Controller{
         send = "crear:" + ID + "(" + Integer.toString(fruta.liana) + ", " + Integer.toString(fruta.altura) + ")";
     }
 
+    /**
+     * Metodo para crear cocodrilos desde la interfaz del usuario administrador
+     * @param tipo Tipo de cocodrilo (azul o rojo)
+     * @param liana Numero de la liana donde estara a fruta
+     * @param plataforma Numero de la plataforma donde estara a fruta
+     */
     public void crearCocodrilo(String tipo, Integer liana, Integer plataforma){
-        Integer velocidad = 100; //delay - velocidad default
         if(tipo.equals("Azul")){
             CocodriloAzul cocodrilo = new CocodriloAzul(plataforma);
             donce.agregarCocodrilo(cocodrilo);
@@ -44,6 +57,13 @@ public class Controller{
          
     }
 
+    /**
+     * Metodo para eliminar una fruta desde la interfaz del usuario administrador
+     * @param liana Numero de la liana donde se encuentra a fruta
+     * @param altura Altura en la liana donde se encuentra la fruta
+     * @param puntos Puntos correspondientes a la fruta
+     * @param ID Identificador de la fruta (manzana, banano o granada)
+     */
     public void eliminarFruta(Integer liana, Integer altura, Integer puntos, String ID){
 
         for(int i = 0; i < donce.frutas.size(); i++){
@@ -58,10 +78,15 @@ public class Controller{
                 break;
             }
         }
+        
     }
 
 //___________________________Leer Mensaje del Cliente_______________________________________________________
 
+    /**
+     * Metodo para leer el mensaje del cliente e interpretarlo
+     * @param cadena Mensaje enviado por el cliente
+     */
     public void readClient(String cadena){
 
         // Obtener la lista de valores de posJugador
@@ -97,8 +122,11 @@ public class Controller{
 
 //___________________________Controlar estados______________________________________________
 
+    /**
+     * Motodo para controlar los eventos segun la informacion enviada por el cliente
+     */
     public void controll(){
-        for(int i = 0; i < donce.posFrutas.size()-1; i++){ //cambiar limite debe funcionar para todas las listas
+        for(int i = 0; i < donce.posFrutas.size()-1; i++){ 
             //Si el jugador y la fruta tienen la misma posicion 
             Fruta fruta = donce.frutas.get(i);
             if(donce.posJugador.equals(donce.posFrutas.get(i))){
