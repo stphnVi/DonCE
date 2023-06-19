@@ -44,8 +44,10 @@ public class ServerThread extends Thread{
                 serverHandler.controller.readClient(text);
                 serverHandler.controller.controll();
                 System.out.printf("The clients says: " + text + "\n");
+                serverHandler.controller.updateSendBuffer("Probando 1 2 3."); // Modify the send buffer value
 
                 writer.println(serverHandler.controller.getMSJ());
+
                 System.out.println("Message sent to client successfully.\n");
 
             } while(!text.equals("bye") && text != null);

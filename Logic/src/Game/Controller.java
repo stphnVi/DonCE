@@ -23,6 +23,10 @@ public class Controller{
         return donce.getSend();
     }
 
+    public void updateSendBuffer(String message){
+        donce.setSend(message);
+    }
+
     public void crearFruta(Integer liana, Integer altura, Integer puntos, String ID){
         Fruta fruta = new Fruta(liana, altura, puntos, ID);
         donce.agregarFruta(fruta);
