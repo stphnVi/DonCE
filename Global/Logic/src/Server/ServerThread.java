@@ -12,7 +12,7 @@ public class ServerThread extends Thread{
     private ServerHandler serverHandler;
     private Boolean isPlayer;//Si es jugador o espectador
 
-
+    //Constructor del hilo 
     public ServerThread(Socket socket, ServerHandler serverHandler){
         this.socket = socket;
         this.serverHandler= serverHandler;
@@ -29,6 +29,7 @@ public class ServerThread extends Thread{
         }
         return true;
     }
+    /*Funcion que se encarga de la transmisión y recepción de datos por la conectividad*/
     public void run(){
         try{
             InputStream input = socket.getInputStream();
@@ -46,6 +47,7 @@ public class ServerThread extends Thread{
                 System.out.printf("The clients says: " + text + "\n");
                 //serverHandler.controller.updateSendBuffer("Probando 1 2 3."); // Modify the send buffer value
 
+                /*Concatena un salto de linea para poder ser parseado en C*/                
                 writer.println(serverHandler.controller.send+"\n");
 
                 System.out.println("Message sent to client successfully.\n");

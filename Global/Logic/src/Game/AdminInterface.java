@@ -7,6 +7,8 @@ import java.awt.event.ActionEvent;
 
 
 
+/*Funcion que se encarga de desplegar la interfaz del administrador en el servidor
+    y manejar la creacion de frutas y de Kremlins*/
 
 public class AdminInterface {
     //Componentes graficos
@@ -41,9 +43,7 @@ public class AdminInterface {
         createFruitButton = new JButton("Crear Fruta");
         removeFruitButton = new JButton("Remover Fruta");
 
-        //Placement de los widgets
-        // frame.add(new JLabel("Juego:"));
-        // frame.add(gameSelector);
+        /*Ubicacion de los widgets en el grid */
         frame.add(new JLabel("Enemigo:"));
         frame.add(kremlinSelector);
         frame.add(new JLabel("Plataforma:"));
@@ -62,7 +62,7 @@ public class AdminInterface {
         frame.add(scoreField);
         frame.add(createFruitButton);
         frame.add(removeFruitButton);
-
+        /*Funcion que se encarga de generar un kremlin en el cliente al presionar el boton "generar" */
         generateKremlinButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -80,7 +80,7 @@ public class AdminInterface {
             }
 
         });
-
+        /*Funcion que se encarga de generar una fruta en el cliente al presionar el boton*/
         createFruitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -112,7 +112,7 @@ public class AdminInterface {
                 scoreField.setText("");
             }
         });
-
+        /*Funcion que se encarga de remover una fruta en el cliente al presionar el boton*/
         removeFruitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -134,7 +134,7 @@ public class AdminInterface {
                 scoreField.setText("");
             }
         });
-
+        
         frame.pack();
         frame.setVisible(true);
     }

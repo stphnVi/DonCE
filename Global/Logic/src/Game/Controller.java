@@ -53,7 +53,9 @@ public class Controller{
             Integer p = fruta.puntos;
             String id = fruta.ID;
             if(liana == l && altura == a && puntos == p && ID.equals(id)){
+                send = "eliminar:" + fruta.ID + "(" + Integer.toString(fruta.liana) + ", " + Integer.toString(fruta.altura) + ")";
                 donce.eliminarFruta(fruta);
+                break;
             }
         }
     }
