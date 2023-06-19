@@ -9,25 +9,15 @@ public class DonCE {
     public List<DonCE> cocodrilos = new ArrayList<>();
     public List<Jugador> jugadores = new ArrayList<>();
 
+    public List<String> mensajes = new ArrayList<>();
+
     List<Integer> posJugador = new ArrayList<>(); //posicion del jugador
     List<Integer> posDK = new ArrayList<>(); //posicion de DK, posicion ganadora
     public List<List<Integer>> posFrutas = new ArrayList<>(); //matriz de las posiciones de las frutas
     List<List<Integer>> posCocodrilos = new ArrayList<>(); //matriz de las posiciones de los cocodrilos
 
-    public String send;
-
 
     public DonCE(){
-        this.send = send;
-        
-    }
-
-    public String getSend(){
-        return send;
-    }
-
-    public void setSend(String msj){
-        this.send = msj;
     }
 
     public void agregarCocodrilo(DonCE cocodrilo){

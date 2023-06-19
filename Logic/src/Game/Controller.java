@@ -11,6 +11,7 @@ public class Controller{
     //Revisar polimorfismo
     DonCE donce = new DonCE();
     Jugador DKjr = new Jugador(3, 0, 1);
+    String send;
 
 
 
@@ -19,13 +20,6 @@ public class Controller{
         this.DKjr = DKjr;
     }
 
-    public String getMSJ(){
-        return donce.getSend();
-    }
-
-    public void updateSendBuffer(String message){
-        donce.setSend(message);
-    }
 
     public void crearFruta(Integer liana, Integer altura, Integer puntos, String ID){
         Fruta fruta = new Fruta(liana, altura, puntos, ID);
@@ -110,10 +104,10 @@ public class Controller{
         for(int i = 0; i < donce.posCocodrilos.size()-1; i++){
             if(donce.posJugador.equals(donce.posCocodrilos.get(i))){
                 DKjr.die();
+                send = "die";
                 //reiniciar nivel
                 break;
             }
-            System.out.println(donce.send);
         }
 
         if(donce.posJugador.equals(donce.posDK)){
