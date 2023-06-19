@@ -1,3 +1,5 @@
+package Game;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,12 +14,12 @@ public class DonCE {
     public List<List<Integer>> posFrutas = new ArrayList<>(); //matriz de las posiciones de las frutas
     List<List<Integer>> posCocodrilos = new ArrayList<>(); //matriz de las posiciones de los cocodrilos
 
+    public String send;
+
 
     public DonCE(){
+        this.send = send;
         
-    }
-    public void addIntruction(String instruccion){
-        System.out.println("Enviar instruccion al Cliente");
     }
 
     public void agregarCocodrilo(DonCE cocodrilo){

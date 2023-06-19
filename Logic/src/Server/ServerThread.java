@@ -1,12 +1,17 @@
 package Server;
 
+
 import java.io.*;
 import java.net.Socket;
+
+
+//Hilo responsable de manejar la conexion con cada cliente
 public class ServerThread extends Thread{
 
     private Socket socket;
     private ServerHandler serverHandler;
     private Boolean isPlayer;//Si es jugador o espectador
+
 
     public ServerThread(Socket socket, ServerHandler serverHandler){
         this.socket = socket;
@@ -33,10 +38,14 @@ public class ServerThread extends Thread{
             PrintWriter writer = new PrintWriter(output,true);
             String text;
 
+
             do{
-                text=reader.readLine();
-                System.out.printf("The clients says: " + text+ "\n");
-                writer.println("Hola desde el Server.\n");
+                text = reader.readLine();
+                serverHandler.controller.readClient(text);
+                serverHandler.controller.controll();
+                System.out.printf("The clients says: " + text + "\n");
+
+                writer.println(serverHandler.controller.send);
                 System.out.println("Message sent to client successfully.\n");
 
             } while(!text.equals("bye") && text != null);

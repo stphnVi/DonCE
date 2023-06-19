@@ -1,3 +1,5 @@
+package Game;
+
 import java.io.IOException;
 import Server.ServerHandler;
 
@@ -11,11 +13,10 @@ public class App {
          SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new AdminInterface();
-            }
-        });
+                new AdminInterface(c1);
+            }});
 
-        ServerHandler serverA = new ServerHandler(9090);
+        ServerHandler serverA = new ServerHandler(9090, c1);
 
         serverA.start();
 

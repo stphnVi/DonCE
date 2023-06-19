@@ -1,3 +1,5 @@
+package Game;
+
 public class CocodriloAzul extends DonCE{
 
     Integer plataforma;
@@ -6,16 +8,12 @@ public class CocodriloAzul extends DonCE{
     public CocodriloAzul(Integer plataforma, Integer velocidad){
         this.plataforma = plataforma;
         this.velocidad = velocidad;
-        addIntruction("crear:azul:" + Integer.toString(plataforma));
+        send = "crear:azul:" + Integer.toString(plataforma);
+        System.out.println("Se creo un cocodrilo azul");
     }
 
     public void increaseSpeed(){
-        addIntruction("speed:" + Integer.toString(velocidad + 50)); 
-    }
-
-    @Override
-    public void addIntruction(String instruccion) {
-        //Enviar al cliente
+        send = "speed:" + Integer.toString(velocidad + 50); 
     }
     
 }

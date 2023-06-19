@@ -1,3 +1,5 @@
+package Game;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,10 +11,20 @@ public class Controller{
     //Revisar polimorfismo
     DonCE donce = new DonCE();
     Jugador DKjr = new Jugador(3, 0, 1);
+    public String send = "";
+
+
+
+    public Controller(){
+        this.donce = donce;
+        this.DKjr = DKjr;
+        this.send = donce.send;
+    }
 
     public void crearFruta(Integer liana, Integer altura, Integer puntos, String ID){
         Fruta fruta = new Fruta(liana, altura, puntos, ID);
         donce.agregarFruta(fruta);
+        System.out.println(donce.frutas);
     }
 
     public void crearCocodrilo(String tipo, Integer liana, Integer plataforma){
@@ -24,6 +36,8 @@ public class Controller{
             CocodriloRojo cocodrilo = new CocodriloRojo(liana, velocidad);
             donce.agregarCocodrilo(cocodrilo);
         }
+
+        System.out.println(donce.cocodrilos);
          
     }
 
@@ -40,8 +54,6 @@ public class Controller{
             }
         }
     }
-
-
 
 //___________________________Leer Mensaje del Cliente_______________________________________________________
 
@@ -73,8 +85,8 @@ public class Controller{
         }
         
         // Imprimir los resultados
-        System.out.println("Valores de posJugador: " + donce.posJugador);
-        System.out.println("Valores de posCocodrilos: " + donce.posCocodrilos);
+        //System.out.println("Valores de posJugador: " + donce.posJugador);
+        //System.out.println("Valores de posCocodrilos: " + donce.posCocodrilos);
     }
 
 

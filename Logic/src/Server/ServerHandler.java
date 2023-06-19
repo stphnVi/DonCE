@@ -2,21 +2,23 @@ package Server;
 
 import java.net.*;
 import java.io.*;
+import Game.Controller;
 
 
 /**
  * Clase que controla a los clientes del servidor segun el puerto al que se conectan*/
 public class ServerHandler extends Thread{
 
-    public Integer clientCount;//count
-    public Integer port;//puerto p conexion
-    public boolean player;//si es player or spect
+    public Controller controller; //Juego del cliente
+    public Integer clientCount; //count
+    public Integer port; //puerto p conexion
+    public boolean player; //si es player or spect
 
     /**
      * Constructor de Server.ServerHandler*/
-    public ServerHandler(Integer port) {//, DonCE juego); ->Se debe agregar la instancia de juego DonCE como parametro constructivo
+    public ServerHandler(Integer port, Controller controller) {
         this.port = port;
-        //this.juego= juego;
+        this.controller= controller;
         this.player=false;
         clientCount=0;
     }

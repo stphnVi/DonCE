@@ -1,3 +1,4 @@
+package Game;
 public class Fruta extends DonCE{
 
     Integer liana;
@@ -16,7 +17,8 @@ public class Fruta extends DonCE{
         this.altura = altura;
         this.puntos = puntos;
         this.ID = ID;
-        addIntruction("crear:" + this.ID + "(" + Integer.toString(liana) + ", " + Integer.toString(altura) + ")");
+        System.out.println("Se creo una fruta " + this.ID);
+        send = "crear:" + this.ID + "(" + Integer.toString(liana) + ", " + Integer.toString(altura) + ")";
     }
 
     /**
@@ -24,12 +26,7 @@ public class Fruta extends DonCE{
      */
     public void eliminar(){
         
-        addIntruction("eliminar:" + this.ID + "(" + Integer.toString(liana) + ", " + Integer.toString(altura) + ")");
-    }
-    
-    @Override
-    public void addIntruction(String instruction){
-        //  Enviar al cliente
+        send = "eliminar:" + this.ID + "(" + Integer.toString(liana) + ", " + Integer.toString(altura) + ")";
     }
     
 }
