@@ -11,14 +11,16 @@ public class Controller{
     //Revisar polimorfismo
     DonCE donce = new DonCE();
     Jugador DKjr = new Jugador(3, 0, 1);
-    public String send = "";
 
 
 
     public Controller(){
         this.donce = donce;
         this.DKjr = DKjr;
-        this.send = send;
+    }
+
+    public String getMSJ(){
+        return donce.getSend();
     }
 
     public void crearFruta(Integer liana, Integer altura, Integer puntos, String ID){
@@ -97,7 +99,6 @@ public class Controller{
             //Si el jugador y la fruta tienen la misma posicion 
             if(donce.posJugador.equals(donce.posFrutas.get(i))){
                 DKjr.eatFruit(donce.frutas.get(i)); //se elimina dentro de eatFruit
-                this.send = donce.send;
                 break;
             }
             
@@ -105,9 +106,6 @@ public class Controller{
         for(int i = 0; i < donce.posCocodrilos.size()-1; i++){
             if(donce.posJugador.equals(donce.posCocodrilos.get(i))){
                 DKjr.die();
-                System.out.println(send);
-                System.out.println(donce.send);
-                this.send = donce.send;
                 //reiniciar nivel
                 break;
             }
@@ -115,7 +113,6 @@ public class Controller{
         }
 
         if(donce.posJugador.equals(donce.posDK)){
-            this.send = donce.send;
             DKjr.win();
         }
     }

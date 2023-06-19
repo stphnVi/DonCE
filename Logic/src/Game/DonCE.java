@@ -22,6 +22,14 @@ public class DonCE {
         
     }
 
+    public String getSend(){
+        return send;
+    }
+
+    public void setSend(String msj){
+        this.send = msj;
+    }
+
     public void agregarCocodrilo(DonCE cocodrilo){
         cocodrilos.add(cocodrilo);
 
@@ -38,7 +46,6 @@ public class DonCE {
     public void eliminarFruta(Fruta fruta){
         frutas.remove(fruta);
         posFrutas.remove(frutas);
-        fruta.eliminar();
     }
 
 }

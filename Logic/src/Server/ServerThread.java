@@ -45,7 +45,7 @@ public class ServerThread extends Thread{
                 serverHandler.controller.controll();
                 System.out.printf("The clients says: " + text + "\n");
 
-                writer.println(serverHandler.controller.send);
+                writer.println(serverHandler.controller.getMSJ());
                 System.out.println("Message sent to client successfully.\n");
 
             } while(!text.equals("bye") && text != null);
