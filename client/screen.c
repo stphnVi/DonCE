@@ -6,11 +6,8 @@ void runGame(SDL_Renderer *renderer)
     SDL_Texture *tileTextures[NUM_TILE_TYPES];
     TilemapDynamic tilemapDynamic;
 
-    char str1[] = "pos: 7: 9 - tile: 0 - accion: 1";
-    char str2[] = "pos: 7: 13 - tile: 1 - accion: 1";
-    char str3[] = "pos: 5: 5 - tile: 2 - accion: 1";
-    char str4[] = "pos: 7: 9 - tile: 0 - accion: 0";
-    const char *cocoData = "speed:1000 - ID: 1 - accion: 1 - pos: ((2,3),(2,6),(2,7))";
+    char str1[] = "crear:1(1, 3)";
+    const char *cocoData = "crear:azul:1:1000";
     char score[] = "5000";
 
     // Cargar texturas para cada tipo de tile
@@ -45,7 +42,7 @@ void runGame(SDL_Renderer *renderer)
         {0, 0, 0, 0, 11, 7, 7, 7, 7, 7, 8, 0, 0, 4, 6, 2},
         {0, 0, 0, 0, 11, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 2},
         {0, 0, 0, 0, 11, 7, 7, 7, 7, 7, 0, 0, 3, 0, 0, 2},
-        {0, 0, 0, 8, 7, 7, 7, 8, 11, 0, 0, 0, 4, 6, 6, 2},
+        {0, 0, 0, 8, 7, 7, 0, 0, 11, 0, 0, 0, 4, 6, 6, 2},
         {0, 0, 0, 0, 0, 0, 0, 0, 11, 0, 0, 0, 5, 0, 0, 2},
         {0, 0, 0, 0, 0, 0, 0, 0, 11, 0, 0, 3, 0, 0, 0, 2},
         {0, 0, 0, 8, 8, 7, 8, 7, 11, 0, 0, 4, 6, 6, 6, 2},
@@ -83,7 +80,8 @@ void runGame(SDL_Renderer *renderer)
 
         int characterTileX, characterTileY;
         getCharacterTileCoordinates(characterRect, &characterTileX, &characterTileY);
-        // printf("Personaje en el tile (%d, %d)\n", characterTileX, characterTileY);
+
+        printf("Personaje en el tile (%d, %d)\n", characterTileX, characterTileY);
 
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
@@ -115,13 +113,10 @@ void runGame(SDL_Renderer *renderer)
         //_________________________________________________/  Dibujar frutas  ej:(pos: 7:9 - tile: 1 - action: 1 o 0)
 
         setDynamicTile(&tilemapDynamic, renderer, str1);
-        setDynamicTile(&tilemapDynamic, renderer, str2);
-        setDynamicTile(&tilemapDynamic, renderer, str3);
-        setDynamicTile(&tilemapDynamic, renderer, str4);
 
         //                                                    ___________________
         //__________________________________________________/  Dibujar Cocodrilos
-        // addCocodrile(renderer, cocoData, tilemap);
+        addkremlim(renderer, cocoData, tilemap);
         // actualizar ventana
         SDL_RenderPresent(renderer);
     }

@@ -61,11 +61,13 @@ void setScore(SDL_Renderer *renderer, char *fruit);
 
 #endif // SCORE_H
 
-// COCODRILES
-#ifndef COCODRILES_H
-#define COCODRILES_H
+// KREMLIM
+#ifndef KREMLIM_H
+#define KREMLIM_H
 
-void addCocodrile(SDL_Renderer *renderer, const char *cocoData, int map[MAP_WIDTH][MAP_HEIGHT]);
-void parseCoordinates(const char *data, int **coordinates, int *numCoordinates);
+void loadKremlimTextures(SDL_Renderer *renderer);
+void destroykremlimTexturess();
+void addkremlim(SDL_Renderer *renderer, const char *kremlimData, int map[MAP_WIDTH][MAP_HEIGHT]);
+void kremlimRed(SDL_Renderer *renderer, int x, int *yCoordinates, int numCoordinates);
 
-#endif // COCODRILES_H
+#endif // KREMLIM_H

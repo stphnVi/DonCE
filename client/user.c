@@ -39,7 +39,7 @@ void moveCharacter(SDL_Rect *characterRect, int *prevX, int *prevY, int map[MAP_
     *prevY = characterRect->y;
 
     int texture = (map[characterRect->x / TILE_SIZE][(characterRect->y - TILE_SIZE) / TILE_SIZE]);
-
+    printf("\ntextura : %d", texture);
     // Obtener la tecla presionada
     const Uint8 *keystate = SDL_GetKeyboardState(NULL);
 
@@ -137,7 +137,7 @@ void moveCharacter(SDL_Rect *characterRect, int *prevX, int *prevY, int map[MAP_
 
             printf("you are dead");
         }
-        }
+    }
     else if (keystate[SDL_SCANCODE_SPACE] && characterRect->x < (MAP_WIDTH - 1) * TILE_SIZE)
     {
         if (texture == 0)

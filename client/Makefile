@@ -3,7 +3,7 @@ CFLAGS = -Isrc/include
 LDFLAGS = -Lsrc/lib
 LDLIBS = -lmingw32 -lwsock32 -lSDL2main -lSDL2 -lSDL2_image
 
-SRCS = main.c screen.c load_texture.c user.c fruits.c cocodriles.c network.c
+SRCS = main.c screen.c load_texture.c user.c fruits.c kremlim.c network.c
 OBJS = $(SRCS:.c=.o)
 TARGET = main
 
