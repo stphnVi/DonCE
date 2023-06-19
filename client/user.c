@@ -39,7 +39,7 @@ void moveCharacter(SDL_Rect *characterRect, int *prevX, int *prevY, int map[MAP_
     *prevY = characterRect->y;
 
     int texture = (map[characterRect->x / TILE_SIZE][(characterRect->y - TILE_SIZE) / TILE_SIZE]);
-    printf("\ntextura : %d", texture);
+
     // Obtener la tecla presionada
     const Uint8 *keystate = SDL_GetKeyboardState(NULL);
 
@@ -47,7 +47,7 @@ void moveCharacter(SDL_Rect *characterRect, int *prevX, int *prevY, int map[MAP_
 
     if (keystate[SDL_SCANCODE_UP] && characterRect->y > 0)
     {
-        printf("\ntexturaUP : %d", texture);
+
         if (inVine = 1 && (texture == 7 || texture == 8))
         {
             characterRect->y -= TILE_SIZE;
@@ -57,7 +57,7 @@ void moveCharacter(SDL_Rect *characterRect, int *prevX, int *prevY, int map[MAP_
 
     else if (keystate[SDL_SCANCODE_DOWN] && characterRect->y < (MAP_HEIGHT - 1) * TILE_SIZE)
     {
-        printf("\ntexturaDOWN : %d", texture);
+
         if (inVine = 1 && (texture == 7 || texture == 8 || texture == 11))
         {
             characterRect->y += TILE_SIZE;
@@ -67,7 +67,7 @@ void moveCharacter(SDL_Rect *characterRect, int *prevX, int *prevY, int map[MAP_
     // IZQUIERDA
     else if (keystate[SDL_SCANCODE_LEFT] && characterRect->x > 0)
     {
-        printf("\ntexturaIZQ : %d", texture);
+
         if (texture == 0)
         {
             characterRect->x -= TILE_SIZE;
@@ -88,8 +88,6 @@ void moveCharacter(SDL_Rect *characterRect, int *prevX, int *prevY, int map[MAP_
                 SDL_Delay(100);
                 dCount = dCount + 43;
             }
-
-            printf("you are dead");
         }
         else if (((map[(*prevX - 43) / TILE_SIZE][((*prevY) - TILE_SIZE) / TILE_SIZE]) == 0) && (texture == 8 || texture == 0 || texture == 7) && (inVine == 1))
         {
@@ -106,10 +104,10 @@ void moveCharacter(SDL_Rect *characterRect, int *prevX, int *prevY, int map[MAP_
     {
         pTile = *prevY + 43;
 
-        printf("\ncuenta 1 valor: %d", *prevY);
-        printf("\ncuenta 2 valor: %d", pTile);
+        // printf("\ncuenta 1 valor: %d", *prevY);
+        // printf("\ncuenta 2 valor: %d", pTile);
 
-        printf("\ntexturaDER : %d", texture);
+        // printf("\ntexturaDER : %d", texture);
         if (texture == 0)
         {
             characterRect->x += TILE_SIZE;
@@ -156,27 +154,6 @@ void moveCharacter(SDL_Rect *characterRect, int *prevX, int *prevY, int map[MAP_
     {
         SDL_Delay(100); // Pausar durante 100 milisegundos
     }
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-    SDL_RenderCopy(renderer, characterTexture[movementState], NULL, characterRect);
-}
-
-void gravityCharacter(SDL_Renderer *renderer, int *prevY, SDL_Rect *characterRect)
-{
-
-    dCount = *prevY;
-    characterRect->y += TILE_SIZE;
-
-    printf("\nActualtexturaDER : %d", dCount);
-
-    while (dCount < 688)
-    {
-        characterRect->y += TILE_SIZE;
-        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-        SDL_RenderCopy(renderer, characterTexture[movementState], NULL, characterRect);
-        SDL_Delay(100);
-        dCount = dCount + 43;
-    }
-
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderCopy(renderer, characterTexture[movementState], NULL, characterRect);
 }

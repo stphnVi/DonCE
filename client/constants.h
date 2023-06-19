@@ -50,6 +50,8 @@ void initializeTilemap(TilemapDynamic *tilemapDynamic);
 void destroyFruitsTextures();
 void setDynamicTile(TilemapDynamic *tilemapDynamic, SDL_Renderer *renderer, char *fruit);
 void printTilemap(TilemapDynamic *tilemapDynamic);
+int transformLiana(int liana);
+int transformAltura(int altura);
 
 #endif // CONSTANTS_H
 
@@ -68,6 +70,6 @@ void setScore(SDL_Renderer *renderer, char *fruit);
 void loadKremlimTextures(SDL_Renderer *renderer);
 void destroykremlimTexturess();
 void addkremlim(SDL_Renderer *renderer, const char *kremlimData, int map[MAP_WIDTH][MAP_HEIGHT]);
-void kremlimRed(SDL_Renderer *renderer, int x, int *yCoordinates, int numCoordinates);
-
+void kremlimRed(SDL_Renderer *renderer, int inicio, int velocidad, int map[MAP_WIDTH][MAP_HEIGHT]);
+int transformLianaK(int liana);
 #endif // KREMLIM_H

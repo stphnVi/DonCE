@@ -5,10 +5,7 @@
 int main(int argc, char *argv[])
 {
     ///////Networking///////
-    char *data = "Hola\n";
     initSockets(1); // incializar conexion con servidor 1
-    writeToServer(data);
-    readFromServer();
     ///////////////////////
 
     SDL_Init(SDL_INIT_VIDEO);

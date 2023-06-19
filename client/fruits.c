@@ -150,7 +150,7 @@ void destroyFruitsTextures()
 int transformLiana(int liana)
 {
     int i;
-    int numMappings = sizeof(lianaMappings) / sizeof(KeyValueA);
+    int numMappings = sizeof(lianaMappings) / sizeof(KeyValue);
 
     for (i = 0; i < numMappings; i++)
     {
@@ -166,7 +166,7 @@ int transformLiana(int liana)
 int transformAltura(int altura)
 {
     int i;
-    int numMappings = sizeof(alturaMappings) / sizeof(KeyValue);
+    int numMappings = sizeof(alturaMappings) / sizeof(KeyValueA);
 
     for (i = 0; i < numMappings; i++)
     {

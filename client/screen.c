@@ -1,5 +1,6 @@
 
 #include "constants.h"
+#include "network.h"
 
 void runGame(SDL_Renderer *renderer)
 {
@@ -7,8 +8,7 @@ void runGame(SDL_Renderer *renderer)
     TilemapDynamic tilemapDynamic;
 
     char str1[] = "crear:1(1, 3)";
-    const char *cocoData = "crear:azul:1:1000";
-    char score[] = "5000";
+    const char *cocoData = "crear:azul:2:1000";
 
     // Cargar texturas para cada tipo de tile
     tileTextures[0] = LoadTexture(renderer, "./Assets/sprites/static/black.png");
@@ -54,6 +54,7 @@ void runGame(SDL_Renderer *renderer)
     // manejo de eventos
     SDL_Event event;
     SDL_Rect characterRect;
+
     characterRect.x = 43; // Posición inicial del personaje
     characterRect.y = 559;
     characterRect.w = 43; // Ancho del personaje
@@ -81,7 +82,7 @@ void runGame(SDL_Renderer *renderer)
         int characterTileX, characterTileY;
         getCharacterTileCoordinates(characterRect, &characterTileX, &characterTileY);
 
-        printf("Personaje en el tile (%d, %d)\n", characterTileX, characterTileY);
+        // printf("Personaje en el tile (%d, %d)\n", characterTileX, characterTileY);
 
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
@@ -108,22 +109,22 @@ void runGame(SDL_Renderer *renderer)
 
         moveCharacter(&characterRect, &prevX, &prevY, tilemap, renderer);
         // Dibujar el tilemap dinámico
-
+        //                                                    ___________________
+        //__________________________________________________/  Dibujar Cocodrilos
+        addkremlim(renderer, cocoData, tilemap);
+        // actualizar ventana
         //                                                   __________________________________________________________
         //_________________________________________________/  Dibujar frutas  ej:(pos: 7:9 - tile: 1 - action: 1 o 0)
 
         setDynamicTile(&tilemapDynamic, renderer, str1);
 
-        //                                                    ___________________
-        //__________________________________________________/  Dibujar Cocodrilos
-        addkremlim(renderer, cocoData, tilemap);
-        // actualizar ventana
         SDL_RenderPresent(renderer);
     }
 
     // Liberar texturas
     destroyCharacterTextures();
     destroyFruitsTextures();
+    destroykremlimTexturess();
 
     for (int i = 0; i < NUM_TILE_TYPES; i++)
     {
