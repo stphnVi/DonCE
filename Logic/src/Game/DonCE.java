@@ -16,6 +16,8 @@ public class DonCE {
     public List<List<Integer>> posFrutas = new ArrayList<>(); //matriz de las posiciones de las frutas
     List<List<Integer>> posCocodrilos = new ArrayList<>(); //matriz de las posiciones de los cocodrilos
 
+    public Integer velocidad = 100;
+
 
     public DonCE(){
     }

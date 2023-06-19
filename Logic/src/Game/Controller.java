@@ -31,13 +31,13 @@ public class Controller{
     public void crearCocodrilo(String tipo, Integer liana, Integer plataforma){
         Integer velocidad = 100; //delay - velocidad default
         if(tipo.equals("Azul")){
-            CocodriloAzul cocodrilo = new CocodriloAzul(plataforma, velocidad);
+            CocodriloAzul cocodrilo = new CocodriloAzul(plataforma);
             donce.agregarCocodrilo(cocodrilo);
-            send = "crear:azul:" + Integer.toString(plataforma) + ":" + Integer.toString(velocidad);
+            send = "crear:azul:" + Integer.toString(plataforma) + ":" + Integer.toString(donce.velocidad);
         } else if(tipo.equals("Rojo")){
-            CocodriloRojo cocodrilo = new CocodriloRojo(liana, velocidad);
+            CocodriloRojo cocodrilo = new CocodriloRojo(liana);
             donce.agregarCocodrilo(cocodrilo);
-            send = "crear:rojo:" + Integer.toString(liana)+ ":" + Integer.toString(velocidad);
+            send = "crear:rojo:" + Integer.toString(liana)+ ":" + Integer.toString(donce.velocidad);
         }
 
         System.out.println(donce.cocodrilos);
@@ -118,7 +118,8 @@ public class Controller{
 
         if(donce.posJugador.equals(donce.posDK)){
             DKjr.win();
-            send = "win:" + Integer.toString(DKjr.nivel);
+            donce.velocidad -= 25;
+            send = "win:" + Integer.toString(DKjr.nivel) + ":" + donce.velocidad;
         }
     }
 }
