@@ -9,11 +9,11 @@ public class CocodriloRojo extends DonCE{
         this.liana = liana;
         this.velocidad = velocidad;
         System.out.println("Se creo un cocodrilo rojo");
-        send = "crear:rojo:" + Integer.toString(liana);
+        setSend("crear:rojo:" + Integer.toString(liana));
     }
 
     public void increaseSpeed(){
-        send = "speed:" + Integer.toString(velocidad + 50); 
+        setSend("speed:" + Integer.toString(velocidad + 50)); 
     }
     
 }
