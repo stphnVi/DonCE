@@ -8,19 +8,37 @@ public class Controller{
 //___________________________Incializacion de variables________________________________________
     //Revisar polimorfismo
     DonCE donce = new DonCE();
-    Fruta banana = new Fruta(2, 3, 100, "banano");
-    Fruta fresa = new Fruta(1, 5, 50, "fresa");
-    Cocodrilo cocodrilo = new Cocodrilo("azul", 3, 50);
     Jugador DKjr = new Jugador(3, 0, 1);
 
-    public void init(){
-        donce.agregarFruta(banana);
-        donce.agregarFruta(fresa);
-        donce.agregarCocodrilo(cocodrilo);
-        System.out.println(donce.frutas);
-        donce.eliminarFruta(banana);
-        System.out.println(donce.frutas);
-        System.out.println(donce.cocodrilos);
+    public void crearFruta(Integer liana, Integer altura, Integer puntos, String ID){
+        Fruta fruta = new Fruta(liana, altura, puntos, ID);
+        donce.agregarFruta(fruta);
+    }
+
+    public void crearCocodrilo(String tipo, Integer liana, Integer plataforma){
+        Integer velocidad = 100; //delay - velocidad default
+        if(tipo.equals("Azul")){
+            CocodriloAzul cocodrilo = new CocodriloAzul(plataforma, velocidad);
+            donce.agregarCocodrilo(cocodrilo);
+        } else if(tipo.equals("Rojo")){
+            CocodriloRojo cocodrilo = new CocodriloRojo(liana, velocidad);
+            donce.agregarCocodrilo(cocodrilo);
+        }
+         
+    }
+
+    public void eliminarFruta(Integer liana, Integer altura, Integer puntos, String ID){
+
+        for(int i = 0; i < donce.frutas.size(); i++){
+            Fruta fruta = donce.frutas.get(i); 
+            Integer l = fruta.liana;
+            Integer a = fruta.altura;
+            Integer p = fruta.puntos;
+            String id = fruta.ID;
+            if(liana == l && altura == a && puntos == p && ID.equals(id)){
+                fruta.eliminar();
+            }
+        }
     }
 
 

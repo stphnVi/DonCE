@@ -4,7 +4,7 @@ import java.util.List;
 public class DonCE {
 
     public List<Fruta> frutas = new ArrayList<>();
-    public List<Cocodrilo> cocodrilos = new ArrayList<>();
+    public List<DonCE> cocodrilos = new ArrayList<>();
     public List<Jugador> jugadores = new ArrayList<>();
 
     List<Integer> posJugador = new ArrayList<>(); //posicion del jugador
@@ -14,20 +14,13 @@ public class DonCE {
 
 
     public DonCE(){
-        this.frutas = frutas;
-        this.cocodrilos = cocodrilos;
-        this.jugadores = jugadores;
-        this.posJugador = posJugador;
-        this.posDK = posDK;
-        this.posFrutas = posFrutas;
-        this.posCocodrilos = posCocodrilos;
         
     }
     public void addIntruction(String instruccion){
         System.out.println("Enviar instruccion al Cliente");
     }
 
-    public void agregarCocodrilo(Cocodrilo cocodrilo){
+    public void agregarCocodrilo(DonCE cocodrilo){
         cocodrilos.add(cocodrilo);
 
     }

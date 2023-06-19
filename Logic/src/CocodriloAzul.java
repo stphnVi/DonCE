@@ -1,14 +1,12 @@
-public class Cocodrilo extends DonCE{
+public class CocodriloAzul extends DonCE{
 
-    String tipo;
-    Integer liana;
+    Integer plataforma;
     Integer velocidad;
 
-    public Cocodrilo(String tipo, Integer liana, Integer velocidad){
-        this.tipo = tipo; 
-        this.liana = liana;
+    public CocodriloAzul(Integer plataforma, Integer velocidad){
+        this.plataforma = plataforma;
         this.velocidad = velocidad;
-        addIntruction("crear:" + this.tipo + Integer.toString(liana));
+        addIntruction("crear:azul:" + Integer.toString(plataforma));
     }
 
     public void increaseSpeed(){
