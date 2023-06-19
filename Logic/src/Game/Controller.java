@@ -11,7 +11,7 @@ public class Controller{
     //Revisar polimorfismo
     DonCE donce = new DonCE();
     Jugador DKjr = new Jugador(3, 0, 1);
-    String send;
+    public String send;
 
 
 
@@ -25,6 +25,7 @@ public class Controller{
         Fruta fruta = new Fruta(liana, altura, puntos, ID);
         donce.agregarFruta(fruta);
         System.out.println(donce.frutas);
+        send = "crear:" + fruta.ID + "(" + Integer.toString(fruta.liana) + ", " + Integer.toString(fruta.altura) + ")";
     }
 
     public void crearCocodrilo(String tipo, Integer liana, Integer plataforma){
@@ -32,9 +33,11 @@ public class Controller{
         if(tipo.equals("Azul")){
             CocodriloAzul cocodrilo = new CocodriloAzul(plataforma, velocidad);
             donce.agregarCocodrilo(cocodrilo);
+            send = "crear:azul:" + Integer.toString(plataforma);
         } else if(tipo.equals("Rojo")){
             CocodriloRojo cocodrilo = new CocodriloRojo(liana, velocidad);
             donce.agregarCocodrilo(cocodrilo);
+            send = "crear:rojo:" + Integer.toString(liana);
         }
 
         System.out.println(donce.cocodrilos);
@@ -50,7 +53,7 @@ public class Controller{
             Integer p = fruta.puntos;
             String id = fruta.ID;
             if(liana == l && altura == a && puntos == p && ID.equals(id)){
-                fruta.eliminar();
+                donce.eliminarFruta(fruta);
             }
         }
     }
@@ -95,8 +98,11 @@ public class Controller{
     public void controll(){
         for(int i = 0; i < donce.posFrutas.size()-1; i++){ //cambiar limite debe funcionar para todas las listas
             //Si el jugador y la fruta tienen la misma posicion 
+            Fruta fruta = donce.frutas.get(i);
             if(donce.posJugador.equals(donce.posFrutas.get(i))){
-                DKjr.eatFruit(donce.frutas.get(i)); //se elimina dentro de eatFruit
+                DKjr.eatFruit(fruta);
+                donce.eliminarFruta(fruta);
+                send = "eliminar:" + fruta.ID + "(" + Integer.toString(fruta.liana) + ", " + Integer.toString(fruta.altura) + ")";
                 break;
             }
             
@@ -112,6 +118,7 @@ public class Controller{
 
         if(donce.posJugador.equals(donce.posDK)){
             DKjr.win();
+            send = "win:" + Integer.toString(DKjr.nivel);
         }
     }
 }

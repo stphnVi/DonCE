@@ -18,14 +18,7 @@ public class Fruta extends DonCE{
         this.puntos = puntos;
         this.ID = ID;
         System.out.println("Se creo una fruta " + this.ID);
-        setSend("crear:" + this.ID + "(" + Integer.toString(liana) + ", " + Integer.toString(altura) + ")");
     }
 
-    /**
-     * Metodo para eliminar un fruta del juego
-     */
-    public void eliminar(){
-        setSend("eliminar:" + this.ID + "(" + Integer.toString(liana) + ", " + Integer.toString(altura) + ")");
-    }
     
 }
